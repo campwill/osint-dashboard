@@ -1,4 +1,4 @@
-# osint-dashboard
+# OSINT Dashboard
 The OSINT Dashboard is a web-based Open Source Intelligence (OSINT) tool designed to consolidate and streamline the analysis of various data sources. This tool will provide users with the ability to gather and examine information from websites, files, phone numbers, emails, and more. The primary features of the dashboard include:
 
     Website/Domain Analysis:
