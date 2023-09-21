@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>OSINT Dashboard</title>
+    <link rel="stylesheet" href="static/styles.css" />
+  </head>
+  <body>
+    <div class="container">
+      <div class="blurb">
+        <h1>OSINT Dashboard Web Tool</h1>
+        <p>
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris
+          fermentum enim vel est aliquet, a pharetra sem bibendum. Cras eget
+          egestas nunc. Nulla facilisi. Integer at elementum elit, sit amet
+          accumsan enim. Suspendisse potenti. Sed dapibus nec orci volutpat
+          molestie. Aenean condimentum porta augue non feugiat. Aliquam iaculis
+          neque ut placerat sodales. Orci varius natoque penatibus et magnis dis
+          parturient montes, nascetur ridiculus mus. Quisque rutrum nulla et
+          pharetra malesuada. Cras ipsum orci, congue a ligula pretium, pretium
+          lacinia tellus. Suspendisse nec tristique mauris. Nunc lobortis,
+          libero in cursus faucibus, nisi eros aliquet dolor, eget facilisis
+          lectus mauris nec purus. Pellentesque vel ex libero. Vestibulum et sem
+          lorem. Proin nec pretium nunc. Integer lorem massa, tempor non arcu
+          vitae, gravida mattis ante. Duis tincidunt eleifend auctor. Aenean
+          molestie tincidunt ante, non consequat risus euismod quis. Proin
+          gravida massa felis, id tincidunt justo luctus et. Vestibulum faucibus
+          mi ut molestie tempor. Aenean maximus purus faucibus ante pretium, ac
+          lobortis risus ornare. Vestibulum quis venenatis arcu. In lobortis sem
+          ut aliquet fermentum. Proin efficitur felis urna, convallis
+          sollicitudin nunc suscipit vel. Phasellus fermentum convallis odio sit
+          amet volutpat. Ut vulputate felis et ante vestibulum, ut ornare ex
+          elementum. Vivamus molestie, enim at egestas pulvinar, leo dui
+          lobortis odio, at vulputate est velit id enim. Maecenas tempus nisi ac
+          sem rutrum, placerat condimentum augue commodo. Proin rhoncus pretium
+          lorem, ut mattis risus. Curabitur fringilla vulputate elit, a
+          ullamcorper tortor ultricies in. Proin pellentesque non tortor non
+          pellentesque. Duis dignissim laoreet risus, eget iaculis nisl rhoncus
+          vitae. Proin aliquet et enim non hendrerit. Aenean rhoncus est sed
+          lectus tristique, quis fermentum leo hendrerit. Morbi egestas sagittis
+          turpis sed molestie. Sed vitae enim congue, sollicitudin quam non,
+          posuere metus. Suspendisse sagittis posuere lacus sed porttitor. Cras
+          et tincidunt risus, ac faucibus sapien. Pellentesque vitae euismod
+          est. Pellentesque pellentesque elementum ligula, non scelerisque est
+          mollis ac. Nunc et ligula nisl. Morbi condimentum ante ut ex luctus,
+          nec mattis est tincidunt. Nullam faucibus urna velit, vitae porttitor
+          neque suscipit quis. Cras orci quam, malesuada eget sagittis vitae,
+          cursus in arcu. Morbi ullamcorper arcu ac est efficitur molestie.
+        </p>
+      </div>
+
+      <div class="buttons">
+        <a href="{{ url_for('web_input') }}" class="button-link">
+          <button type="web">Web Tools</button>
+        </a>
+
+        <a href="{{ url_for('image_tools') }}" class="button-link">
+          <button type="image">Image Tools</button>
+        </a>
+
+        <a href="{{ url_for('file_tools') }}" class="button-link">
+          <button type="file">File Tools</button>
+        </a>
+      </div>
+    </div>
+
+    <div class="credits">
+      <h2>Credits</h2>
+      <p>
+        This OSINT Dashboard was developed by ANDREW FLORA. With Help from
+        William Campbell and Santiago Colla.
+      </p>
+    </div>
+  </body>
+</html>
