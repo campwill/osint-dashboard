@@ -29,35 +29,21 @@
         margin-top: 10px;
       }
     </style>
-    <script>
-      // Function to clear the error message
-      function clearErrorMessage() {
-      alert("");
-      }
-
-      // Check if the error flag is set and clear the error message
-      {% if error %}
-      window.onload = clearErrorMessage;
-      {% endif %}
-      {% if error %}
-      window.onload = function() {
-      alert("Invalid URL! Please enter a valid URL and try again.");
-      }
-      {% endif %}
-    </script>
   </head>
   <body>
     <div class="container">
-      <p>Enter Website URL and hit go to begin analysis</p>
-      <form method="POST" onsubmit="return validateForm()">
+      <label for="web_input"
+        >Enter Website URL and hit go to begin analysis</label
+      >
+      <form method="POST" action="/web_tool">
         <div class="input-container">
           <input
-            type="text"
+            type="url"
             name="web_input"
             id="web_input"
-            placeholder="http://example.com"
+            placeholder="http://example.com/"
+            required
           />
-
           <button type="analyze">Go</button>
         </div>
       </form>
