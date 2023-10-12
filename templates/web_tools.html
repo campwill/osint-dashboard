@@ -4,12 +4,79 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Web Tools</title>
+    <style>
+      #info-container {
+        display: flex;
+        justify-content: center;
+        text-align: center;
+        border-bottom: 2px solid #000;
+        padding: 20px;
+        margin-top: 20px;
+      }
+      #tools-container {
+        display: flex;
+        justify-content: center;
+      }
+
+      #tool-bar {
+        background-color: #f0f0f0;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        margin-right: 10px;
+      }
+
+      #tool-display {
+        background-color: #f0f0f0;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+      }
+
+      #tool-bar,
+      #tool-display {
+        width: 50%;
+      }
+      #dash-board {
+        display: flex;
+        flex-direction: column;
+      }
+
+      h1 {
+        font-size: 24px;
+        margin: 10px;
+      }
+    </style>
   </head>
   <body>
-    <div id="container">
-      <h1>{{user_url}}</h1>
-
-      <div>{{ip_info}}</div>
+    <div id="dash-board">
+      <div id="info-container">
+        <h1>{{user_url}}</h1>
+        <link rel="shortcut icon" href="{{ favi }}" />
+        <h1>{{title}}</h1>
+        <h1>{{ip_info}}</h1>
+      </div>
+      <div id="tools-container">
+        <div id="tool-bar">test</div>
+        <div id="tool-display"></div>
+      </div>
     </div>
   </body>
+  <script>
+    document
+      .getElementById("function1Button")
+      .addEventListener("click", function () {
+        executePythonFunction("function1");
+      });
+    function executePythonFunction(functionName) {
+      fetch("/path-to-your-python-script.py?function=" + functionName)
+        .then((response) => response.text())
+        .then((output) => {
+          document.getElementById("tool-display").textContent = output;
+        })
+        .catch((error) => {
+          console.error("Error:", error);
+        });
+    }
+  </script>
 </html>

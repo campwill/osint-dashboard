@@ -1,5 +1,5 @@
 from flask import Flask, render_template, request, redirect, url_for, flash
-from web_tools import is_valid_url, ip_address
+from web_tools import is_valid_url, website_information
 app = Flask(__name__)
 app.secret_key = '7469817409714-97142'
 
@@ -27,8 +27,8 @@ def file_tools():
 @app.route('/web_tool', methods=["POST"])
 def web_tool():
     user_url = request.form.get('web_input')
-    ip_info = ip_address(user_url)
-    return render_template('web_tools.html', user_url=user_url, ip_info=ip_info[1])
+    ip_info, domain, title, favi = website_information(user_url)
+    return render_template('web_tools.html', user_url=domain, ip_info=ip_info, title=title, favicon=favi)
 
 
 if __name__ == '__main__':
