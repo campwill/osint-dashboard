@@ -1,7 +1,12 @@
 from flask import Flask, render_template, request, redirect, url_for, flash
 from web_tools import is_valid_url, website_information
+import os
+from dotenv import load_dotenv
 app = Flask(__name__)
-app.secret_key = '7469817409714-97142'
+
+load_dotenv()
+secret_key = os.getenv('SECRET_KEY')
+app.secret_key = secret_key
 
 
 @app.route('/')

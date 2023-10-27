@@ -49,6 +49,19 @@
     </style>
   </head>
   <body>
+    <div id="dropdown-container">
+      <select id="dropdown-menu">
+        <option value="option1">Option 1</option>
+        <option value="option2">Option 2</option>
+        <option value="option3">Option 3</option>
+      </select>
+      <button id="save-as-pdf-button" onclick="saveAsPDF()">Save as PDF</button>
+      <script>
+        function saveAsPDF() {
+          alert("Save as PDF functionality will be implemented here.");
+        }
+      </script>
+    </div>
     <div id="dash-board">
       <div id="info-container">
         <h1>{{user_url}}</h1>
@@ -56,27 +69,11 @@
         <h1>{{title}}</h1>
         <h1>{{ip_info}}</h1>
       </div>
+
       <div id="tools-container">
         <div id="tool-bar">test</div>
         <div id="tool-display"></div>
       </div>
     </div>
   </body>
-  <script>
-    document
-      .getElementById("function1Button")
-      .addEventListener("click", function () {
-        executePythonFunction("function1");
-      });
-    function executePythonFunction(functionName) {
-      fetch("/path-to-your-python-script.py?function=" + functionName)
-        .then((response) => response.text())
-        .then((output) => {
-          document.getElementById("tool-display").textContent = output;
-        })
-        .catch((error) => {
-          console.error("Error:", error);
-        });
-    }
-  </script>
 </html>
