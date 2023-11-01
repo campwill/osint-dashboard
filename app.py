@@ -1,6 +1,7 @@
 from flask import Flask, render_template, request, redirect, url_for, flash
 from web_tools import is_valid_url, website_information
 import os
+from web_tools import *
 from dotenv import load_dotenv
 app = Flask(__name__)
 
@@ -32,8 +33,20 @@ def file_tools():
 @app.route('/web_tool', methods=["POST"])
 def web_tool():
     user_url = request.form.get('web_input')
-    ip_info, domain, title, favi = website_information(user_url)
-    return render_template('web_tools.html', user_url=domain, ip_info=ip_info, title=title, favicon=favi)
+    domain, ip_str, title, favi = website_information(user_url)
+    cookies = get_cookies(user_url)
+    headers = get_headers(user_url)
+    ip_info = get_ip_info(ip_str)
+    dns_records = get_records(domain)
+    ssl_cert = get_ssl(domain)
+    large_json = {
+        "ip_info": ip_info if ip_info else {},
+        "cookies": cookies if cookies else {},
+        "headers": headers if headers else {},
+        "dns_records": dns_records if dns_records else {},
+        "ssl_info": ssl_cert if ssl_cert else {}
+    }
+    return render_template('web_tools.html', user_url=domain, ip_info=ip_str, title=title, favicon=favi, web_info=json.dumps(large_json))
 
 
 if __name__ == '__main__':

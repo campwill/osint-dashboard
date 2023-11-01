@@ -4,64 +4,35 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Web Tools</title>
-    <style>
-      #info-container {
-        display: flex;
-        justify-content: center;
-        text-align: center;
-        border-bottom: 2px solid #000;
-        padding: 20px;
-        margin-top: 20px;
-      }
-      #tools-container {
-        display: flex;
-        justify-content: center;
-      }
-
-      #tool-bar {
-        background-color: #f0f0f0;
-        padding: 10px;
-        border: 1px solid #ccc;
-        border-radius: 5px;
-        margin-right: 10px;
-      }
-
-      #tool-display {
-        background-color: #f0f0f0;
-        padding: 10px;
-        border: 1px solid #ccc;
-        border-radius: 5px;
-      }
-
-      #tool-bar,
-      #tool-display {
-        width: 50%;
-      }
-      #dash-board {
-        display: flex;
-        flex-direction: column;
-      }
-
-      h1 {
-        font-size: 24px;
-        margin: 10px;
-      }
-    </style>
+    <link rel="stylesheet" type="text/css" href="static/web_tools.css" />
+    <link
+      href="http://fonts.googleapis.com/css?family=Roboto"
+      rel="stylesheet"
+      type="text/css"
+    />
+    <style></style>
   </head>
   <body>
     <div id="dropdown-container">
-      <select id="dropdown-menu">
-        <option value="option1">Option 1</option>
-        <option value="option2">Option 2</option>
-        <option value="option3">Option 3</option>
+      <select id="dropdown-menu" onchange="location = this.value;">
+        <option value="" disabled selected style="display: none">
+          <a href="#menu"> &#9776; Menu </a>
+        </option>
+        <option value="/">Home</option>
+        <option value="/web-input">Web Input</option>
       </select>
+      <h1 id="title">OSINT DASHBOARD</h1>
       <button id="save-as-pdf-button" onclick="saveAsPDF()">Save as PDF</button>
-      <script>
-        function saveAsPDF() {
-          alert("Save as PDF functionality will be implemented here.");
-        }
-      </script>
     </div>
+
+    <script>
+      function saveAsPDF() {
+        var tempTitle = document.title;
+        document.title = "OSINT Report.pdf";
+        window.print();
+        document.title = tempTitle;
+      }
+    </script>
     <div id="dash-board">
       <div id="info-container">
         <h1>{{user_url}}</h1>
@@ -71,9 +42,23 @@
       </div>
 
       <div id="tools-container">
-        <div id="tool-bar">test</div>
-        <div id="tool-display"></div>
+        <div id="tool-column">
+          <div class="ip-information">IP Information:</div>
+          <div class="cookies-info">Cookies Information:</div>
+        </div>
+        <div id="tool-column">
+          <div class="header-info">Headers Information:</div>
+        </div>
+        <div id="tool-column">
+          <div class="DNS-info">DNS Records:</div>
+        </div>
       </div>
     </div>
+    <script
+      id="large-json-data"
+      type="application/json"
+      data-large-json="{{web_info}}"
+    ></script>
+    <script src="static/script.js"></script>
   </body>
 </html>
