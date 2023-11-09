@@ -1,5 +1,6 @@
 from urllib.parse import urlparse
 from urllib.request import urlopen
+from urllib import request
 import requests
 import ipinfo
 from dotenv import load_dotenv
@@ -22,14 +23,16 @@ def is_valid_url(url):
 
 
 def findTitle(url):
-    webpage = urlopen(url).read().decode('utf-8')
-    pattern = re.compile(r'<title>(.*?)</title>')
-    title_search = pattern.search(webpage)
-    if title_search:
-        title = title_search.group(1)
-        return title
-    else:
+    try:
+        req = request.Request(url, headers={'User-Agent': 'Mozilla/5.0'})
+        with request.urlopen(req) as response:
+            html_content = response.read()
+            return (str(html_content).split('<title>')[1].split('</title>')[0])
+    except IndexError:
         return ""
+
+
+findTitle("http://x.com")
 
 
 def find_favicon_link(html):
@@ -47,13 +50,28 @@ def website_information(website):
     parsed_url = urlparse(website)
     domain = parsed_url.netloc
     try:
-        ip_address = socket.gethostbyname(domain)
+        ip_addresses = [res[4][0] for res in socket.getaddrinfo(domain, 80)]
+        # Choosing the first IP address from the list
+        ip_address = ip_addresses[0]
         with urlopen(website) as response:
             website_html = response.read().decode('utf-8')
         favicon_link = find_favicon_link(website_html)
         return (domain, ip_address, title, favicon_link)
     except (socket.gaierror, OSError):
-        return (domain, "Invalid domain or unable to resolve IP address")
+        domain, ip_address, title, favicon_link = website_information(
+            get_redirects(website)[1])
+        return (domain, ip_address, title, favicon_link)
+
+
+def get_redirects(url):
+    try:
+        response = requests.get(url, allow_redirects=True)
+        redirects = response.history
+        final_url = response.url
+        return redirects, final_url
+    except requests.RequestException as e:
+        print(f"An error occurred: {e}")
+        return [], None
 
 
 def get_cookies(domain):
@@ -75,11 +93,13 @@ ipinfo_api_key = os.getenv('IPINFO_API_KEY')
 
 
 def get_ip_info(ip_address):
-    handler = ipinfo.getHandler(ipinfo_api_key)
+    try:
+        handler = ipinfo.getHandler(ipinfo_api_key)
 
-    details = handler.getDetails(ip_address)
-    print(type(details.all))
-    return (details.all)
+        details = handler.getDetails(ip_address)
+        return (details.all)
+    except ValueError as e:
+        return {'Error': f'{e}'}
 
 
 def get_records(domain):

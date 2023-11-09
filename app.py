@@ -1,5 +1,5 @@
-from flask import Flask, render_template, request, redirect, url_for, flash
-from web_tools import is_valid_url, website_information
+from concurrent.futures import ThreadPoolExecutor
+from flask import Flask, render_template, request as flask_request, redirect, url_for, flash
 import os
 from web_tools import *
 from dotenv import load_dotenv
@@ -32,7 +32,7 @@ def file_tools():
 
 @app.route('/web_tool', methods=["POST"])
 def web_tool():
-    user_url = request.form.get('web_input')
+    user_url = flask_request.form.get('web_input')
     domain, ip_str, title, favi = website_information(user_url)
     cookies = get_cookies(user_url)
     headers = get_headers(user_url)
