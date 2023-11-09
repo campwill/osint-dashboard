@@ -14,18 +14,27 @@ document.addEventListener('DOMContentLoaded', function() {
     console.log(IPData);
     var IPInfoDiv = document.querySelector(".ip-information");
     for(var key in IPData){
+
         if(key !="isEU"){
             var item = document.createElement("div");
+            if(key == "ip"){
+                item.innerText = "IP: " + IPData[key];
+            }else{
             item.innerText = key+ ": " + IPData[key];
+            }
             IPInfoDiv.appendChild(item);
+
         }
     }
     var HeaderData = largeJsonData["headers"];
     var headersInfoDiv = document.querySelector(".header-info");
     for (var key in HeaderData) {
-        var item = document.createElement("div");
-        item.innerText = key + ": " + HeaderData[key];
-        headersInfoDiv.appendChild(item);
+        if(key !="Set-Cookie"){
+
+            var item = document.createElement("div");
+            item.innerText = key + ": " + HeaderData[key];
+            headersInfoDiv.appendChild(item);
+        }   
     }
     var DNSData = largeJsonData["dns_records"];
     var DNSInfoDiv = document.querySelector(".DNS-info");

@@ -46,6 +46,7 @@ def web_tool():
         "dns_records": dns_records if dns_records else {},
         "ssl_info": ssl_cert if ssl_cert else {}
     }
+    print(json.dumps(large_json))
     return render_template('web_tools.html', user_url=domain, ip_info=ip_str, title=title, favicon=favi, web_info=json.dumps(large_json))
 
 
