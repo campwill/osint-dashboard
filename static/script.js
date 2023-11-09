@@ -13,9 +13,10 @@ document.addEventListener('DOMContentLoaded', function() {
     var IPData = largeJsonData["ip_info"];
     console.log(IPData);
     var IPInfoDiv = document.querySelector(".ip-information");
+    irrelevant_items = ["isEU","country_currency"];
     for(var key in IPData){
 
-        if(key !="isEU"){
+        if( !irrelevant_items.includes(key)){
             var item = document.createElement("div");
             if(key == "ip"){
                 item.innerText = "IP: " + IPData[key];
