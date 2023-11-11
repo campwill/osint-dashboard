@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>PID Tools</title>
+    <link rel="stylesheet" type="text/css" href="static/web_tools.css" />
+    <link
+      href="http://fonts.googleapis.com/css?family=Roboto"
+      rel="stylesheet"
+      type="text/css"
+    />
+    <style></style>
+  </head>
+  <body>
+    <div id="dropdown-container">
+      <select id="dropdown-menu" onchange="location = this.value;">
+        <option value="" disabled selected style="display: none">
+          <a href="#menu"> &#9776; Menu </a>
+        </option>
+        <option value="/">Home</option>
+        <option value="/web-input">Web Input</option>
+      </select>
+      <h1 id="title">OSINT DASHBOARD</h1>
+      <button id="save-as-pdf-button" onclick="saveAsPDF()">Save as PDF</button>
+    </div>
+
+    <script>
+      function saveAsPDF() {
+        var tempTitle = document.title;
+        document.title = "OSINT Report.pdf";
+        window.print();
+        document.title = tempTitle;
+      }
+    </script>
+    <div id="dash-board">
+      <div id="info-container">
+        <h1>{{number}}</h1>
+
+      </div>
+
+      <div id="tools-container">
+        <div id="tool-column">
+          
+      </div>
+    </div>
+
+  </body>
+</html>

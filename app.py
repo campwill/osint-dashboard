@@ -20,9 +20,9 @@ def web_input():
     return render_template('web_input.html')
 
 
-@app.route('/image-tools')
-def image_tools():
-    return render_template('image_tools.html')
+@app.route('/pid-input')
+def pid_input():
+    return render_template('pid_input.html')
 
 
 @app.route('/file-tools')
@@ -48,6 +48,12 @@ def web_tool():
     }
     print(json.dumps(large_json))
     return render_template('web_tools.html', user_url=domain, ip_info=ip_str, title=title, favicon=favi, web_info=json.dumps(large_json))
+
+
+@app.route('/pid_tool', methods=["POST"])
+def pid_tool():
+    number = flask_request.form.get('phone_input')
+    return render_template('pid_tools.html', number=number)
 
 
 if __name__ == '__main__':
