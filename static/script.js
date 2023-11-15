@@ -13,37 +13,60 @@ document.addEventListener('DOMContentLoaded', function() {
     var IPData = largeJsonData["ip_info"];
     console.log(IPData);
     var IPInfoDiv = document.querySelector(".ip-information");
-    irrelevant_items = ["isEU","country_currency"];
+    irrelevant_items = ["isEU", "country_flag_url", "country", "country_flag", "country_currency", "continent", "latitude", "longitude" ];
+
+    let IPDict = {
+        "ip" : "IP",
+        "anycast" : "Anycast network architecture",
+        "loc" : "Coordinates",
+        "org" : "Organization",
+        "postal" : "ZIP Code",
+        "country_name" : "Country"
+    }
+
     for(var key in IPData){
 
         if( !irrelevant_items.includes(key)){
             var item = document.createElement("div");
-            if(key == "ip"){
-                item.innerText = "IP: " + IPData[key];
-            }else{
-            item.innerText = key+ ": " + IPData[key];
-            }
+            item.innerText = IPDict[key].toUpperCase()+ ": " + IPData[key];
             IPInfoDiv.appendChild(item);
-
         }
     }
     var HeaderData = largeJsonData["headers"];
     var headersInfoDiv = document.querySelector(".header-info");
-    for (var key in HeaderData) {
-        if(key !="Set-Cookie"){
+    irrelevant_items = ["perf", "expiry", "set-cookie"];
 
+    let HeaderDict = {
+        "pragma" : "Pragma (Catching) Info",
+        "server" : "Web Server Info"
+    }
+
+    for (var key in HeaderData) {
+
+        if( !irrelevant_items.includes(key)){
             var item = document.createElement("div");
-            item.innerText = key + ": " + HeaderData[key];
+            item.innerText = HeaderDict[key].toUpperCase() + ": " + HeaderData[key];
             headersInfoDiv.appendChild(item);
-        }   
+        }
     }
     var DNSData = largeJsonData["dns_records"];
     var DNSInfoDiv = document.querySelector(".DNS-info");
-    for (var key in DNSData) {
-        var item = document.createElement("div");
-        item.innerText = key + ": " + DNSData[key];
-        DNSInfoDiv.appendChild(item);
+    irrelevant_items = [];
+
+    let DNSDict = {
+        "A" : "'A' (address) Record",
+        "NS" : "'NS' (nameserver) Record",
+        "SOA" : "'SOA' (start of authority) Record",
+        "MX" : "'MX' (mail exchange) Record"
     }
-    
+
+    for (var key in DNSData) {
+
+        if( !irrelevant_items.includes(key)){
+            var item = document.createElement("div");
+            item.innerText = DNSDict[key].toUpperCase() + ": " + DNSData[key];
+            DNSInfoDiv.appendChild(item);
+        }
+    }
 
 });
