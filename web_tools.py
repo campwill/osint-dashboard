@@ -49,7 +49,7 @@ def website_information(website):
         ip_address = ip_addresses[0]
         with urlopen(website) as response:
             website_html = response.read().decode('utf-8')
-        favicon_link = get_favicon(website_html)
+        favicon_link = get_favicon(domain)
         return (domain, ip_address, title, favicon_link)
     except (socket.gaierror, OSError):
         domain, ip_address, title, favicon_link = website_information(get_redirects(website)[1])
