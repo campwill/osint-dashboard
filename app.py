@@ -33,7 +33,7 @@ def file_tools():
 @app.route('/web_tool', methods=["POST"])
 def web_tool():
     user_url = flask_request.form.get('web_input')
-    domain, ip_str, title, favi = website_information(user_url)
+    domain, ip_str, title, favicon = website_information(user_url)
     cookies = get_cookies(user_url)
     headers = get_headers(user_url)
     ip_info = get_ip_info(ip_str)
@@ -47,7 +47,7 @@ def web_tool():
         "ssl_info": ssl_cert if ssl_cert else {}
     }
     print(json.dumps(large_json))
-    return render_template('web_tools.html', user_url=domain, ip_info=ip_str, title=title, favicon=favi, web_info=json.dumps(large_json))
+    return render_template('web_tools.html', user_url=domain, ip_info=ip_str, title=title, favicon=favicon, web_info=json.dumps(large_json))
 
 
 @app.route('/pid_tool', methods=["POST"])

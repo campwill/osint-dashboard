@@ -35,14 +35,8 @@ def findTitle(url):
 findTitle("http://x.com")
 
 
-def find_favicon_link(html):
-    favicon_pattern = r'<link\s+rel=["\']shortcut icon["\']\s+href=["\']([^"\']+)["\']'
-    match = re.search(favicon_pattern, html, re.IGNORECASE)
-
-    if match:
-        return match.group(1)
-    else:
-        return None
+def get_favicon(domain):
+    return 'https://icon.horse/icon/' + domain
 
 
 def website_information(website):
@@ -55,11 +49,10 @@ def website_information(website):
         ip_address = ip_addresses[0]
         with urlopen(website) as response:
             website_html = response.read().decode('utf-8')
-        favicon_link = find_favicon_link(website_html)
+        favicon_link = get_favicon(website_html)
         return (domain, ip_address, title, favicon_link)
     except (socket.gaierror, OSError):
-        domain, ip_address, title, favicon_link = website_information(
-            get_redirects(website)[1])
+        domain, ip_address, title, favicon_link = website_information(get_redirects(website)[1])
         return (domain, ip_address, title, favicon_link)
 
 
