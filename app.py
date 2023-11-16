@@ -2,8 +2,11 @@ from concurrent.futures import ThreadPoolExecutor
 from flask import Flask, render_template, request as flask_request, redirect, url_for, flash
 import os
 from web_tools import *
+from file_tools import *
 from dotenv import load_dotenv
+
 app = Flask(__name__)
+app.config['TEMPLATES_AUTO_RELOAD'] = True
 
 load_dotenv()
 secret_key = os.getenv('SECRET_KEY')
@@ -25,9 +28,9 @@ def pid_input():
     return render_template('pid_input.html')
 
 
-@app.route('/file-tools')
+@app.route('/file-input')
 def file_tools():
-    return render_template('file_tools.html')
+    return render_template('file_input.html')
 
 
 @app.route('/web_tool', methods=["POST"])
@@ -55,6 +58,19 @@ def pid_tool():
     number = flask_request.form.get('phone_input')
     return render_template('pid_tools.html', number=number)
 
+
+@app.route('/upload', methods=['POST'])
+def upload():
+    uploaded_file = flask_request.files['fileToUpload']
+    if flask_request.files['fileToUpload'].filename == '':
+      return render_template('file_input.html')
+    
+    try:
+        PillowDict, coords, exifreadVersion, tags, presentTags, ExifDict = get_exif(uploaded_file)
+        return render_template("report.html", PillowDict=PillowDict, coords=coords, exifreadVersion=exifreadVersion, tags=tags, presentTags=presentTags, ExifDict=ExifDict)
+    except ValueError:
+        PillowDict = get_exif(uploaded_file)
+        return render_template("report.html", PillowDict=PillowDict)
 
 if __name__ == '__main__':
     app.run(debug=True)
