@@ -31,6 +31,7 @@ def get_exif(uploaded_file):
         'Megapixels': [str(mp), 'Identifies how big the image is in megapixels, which is equal to one million pixels.'],
         'Mode': [str(image.mode), 'Image mode. This is a string specifying the pixel format used by the image.'],
         'Pillow Version': [str(Image.__version__), 'The version of the Pillow module used to gather certain image information.']
+
     }
 
     tags = exifread.process_file(uploaded_file, details=False)
