@@ -22,7 +22,6 @@ def get_exif(uploaded_file):
     mp = (image.width * image.height) / 1000000
 
     PillowDict = {
-        'Pillow Version': [str(Image.__version__), 'The version of the Pillow module used to gather certain image information.'],
         'Filename': [str(uploaded_file.filename), 'The current name of the uploaded image file.'],
         'File Format': [str(image.format), 'The current file extension of the uploaded image.'],
         'File Size (Bytes)': [str(b), 'The current size of the uploaded image file in bytes.'],
@@ -31,6 +30,7 @@ def get_exif(uploaded_file):
         'Height': [str(image.height), 'The height of the uploaded image file, in pixels.'],
         'Megapixels': [str(mp), 'Identifies how big the image is in megapixels, which is equal to one million pixels.'],
         'Mode': [str(image.mode), 'Image mode. This is a string specifying the pixel format used by the image.']
+	    'Pillow Version': [str(Image.__version__), 'The version of the Pillow module used to gather certain image information.'],
     }
 
     tags = exifread.process_file(uploaded_file, details=False)
