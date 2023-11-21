@@ -104,3 +104,35 @@ h1 {
   background-color: #004165;
   color: #F4FAFF;
 }
+
+
+/* Report.html*/
+
+.section {
+  display: inline-block;
+  vertical-align: top;
+  border: 1px solid #f4faff;
+  padding: 15px;
+  margin: 0 auto;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  background-color: #004165;
+  font-family: "Roboto", sans-serif;
+  word-wrap: break-word;
+  color: #f4faff;
+  line-height: 1.5;
+  text-align: left;
+  max-width: 400px;
+  width: 100%;
+}
+
+.info-block strong {
+  float: left;
+}
+.info-block p {
+  text-align: right;
+}
+
+#exif-information {
+  text-align: center;
+}
