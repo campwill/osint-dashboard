@@ -13,41 +13,60 @@ function createAndAppendElements(data, container, dictionary, ignoredItems) {
         }
     }
 }
+var toolsConfig = [
+    {
+        containerSelector: ".cookies-info",
+        dataKey: "cookies",
+        dictionary: {},
+        ignoredItems: []
+    },
+    {
+        containerSelector: ".ip-information",
+        dataKey: "ip_info",
+        dictionary: {
+            "ip" : "IP",
+            "anycast" : "Anycast network architecture",
+            "loc" : "Coordinates",
+            "org" : "Organization",
+            "postal" : "ZIP Code",
+            "country_name" : "Country"
+        },
+        ignoredItems: ["isEU", "country_flag_url", "country", "country_flag", "country_currency", "continent", "latitude", "longitude"]
+    },
+    {
+        containerSelector: ".header-info",
+        dataKey: "headers",
+        dictionary: {
+            "pragma" : "Pragma (Catching) Info",
+            "server" : "Web Server Info"
+        },
+        ignoredItems:["perf", "expiry", "set-cookie"]
+    },
+    {
+        containerSelector:".DNS-info",
+        dataKey: "dns_records",
+        dictionary: {
+            "A" : "'A' (address) Record",
+            "NS" : "'NS' (nameserver) Record",
+            "SOA" : "'SOA' (start of authority) Record",
+            "MX" : "'MX' (mail exchange) Record"
+        },
+        ignoredItems: []
+    },
+    {
+        containerSelector:".SSL-info",
+        dataKey:"ssl_info",
+        dictionary:{},
+        ignoredItems:[]
+    }
+
+];
 document.addEventListener('DOMContentLoaded', function() {
     var largeJsonScript = document.getElementById('large-json-data');
     var largeJsonData = JSON.parse(largeJsonScript.getAttribute('data-large-json'));
 
-    var cookiesInfoDiv = document.querySelector(".cookies-info");
-    createAndAppendElements(largeJsonData["cookies"], cookiesInfoDiv, {}, []);
-
-    var IPInfoDiv = document.querySelector(".ip-information");
-    irrelevant_items = ["isEU", "country_flag_url", "country", "country_flag", "country_currency", "continent", "latitude", "longitude" ];
-
-    let IPDict = {
-        "ip" : "IP",
-        "anycast" : "Anycast network architecture",
-        "loc" : "Coordinates",
-        "org" : "Organization",
-        "postal" : "ZIP Code",
-        "country_name" : "Country"
-    }
-    createAndAppendElements(largeJsonData['ip_info'],IPInfoDiv,IPDict,irrelevant_items);
-
-    var headersInfoDiv = document.querySelector(".header-info");
-    irrelevant_items = ["perf", "expiry", "set-cookie"];
-    let HeaderDict = {
-        "pragma" : "Pragma (Catching) Info",
-        "server" : "Web Server Info"
-    }
-    createAndAppendElements(largeJsonData["headers"],headersInfoDiv,HeaderDict,irrelevant_items);
-
-    var DNSInfoDiv = document.querySelector(".DNS-info");
-    irrelevant_items = [];
-    let DNSDict = {
-        "A" : "'A' (address) Record",
-        "NS" : "'NS' (nameserver) Record",
-        "SOA" : "'SOA' (start of authority) Record",
-        "MX" : "'MX' (mail exchange) Record"
-    }
-    createAndAppendElements(largeJsonData["dns_records"],DNSInfoDiv,DNSDict,[])
+    toolsConfig.forEach(function (config) {
+        var container = document.querySelector(config.containerSelector);
+        createAndAppendElements(largeJsonData[config.dataKey], container, config.dictionary, config.ignoredItems);
+    });
 });

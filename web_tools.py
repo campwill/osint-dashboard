@@ -32,9 +32,6 @@ def findTitle(url):
         return ""
 
 
-findTitle("http://x.com")
-
-
 def get_favicon(domain):
     return 'https://icon.horse/icon/' + domain
 
@@ -52,17 +49,22 @@ def website_information(website):
         favicon_link = get_favicon(domain)
         return (domain, ip_address, title, favicon_link)
     except (socket.gaierror, OSError):
-        domain, ip_address, title, favicon_link = website_information(get_redirects(website)[1])
+        _, ip_address, _, favicon_link = website_information(
+            get_redirects(website)[1])
         return (domain, ip_address, title, favicon_link)
 
 
 def get_redirects(url):
+    print(url)
     try:
         response = requests.get(url, allow_redirects=True)
+        response.raise_for_status()
         redirects = response.history
+        print(redirects)
         final_url = response.url
         return redirects, final_url
     except requests.RequestException as e:
+        # Log the error for debugging
         print(f"An error occurred: {e}")
         return [], None
 

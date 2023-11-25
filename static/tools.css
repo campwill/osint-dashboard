@@ -25,7 +25,8 @@ body {
 .ip-information,
 .DNS-info,
 .cookies-info,
-.header-info {
+.header-info,
+.SSL-info {
   display: inline-block;
   vertical-align: top;
   border: 1px solid #F4FAFF;

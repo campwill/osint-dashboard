@@ -1,3 +1,4 @@
+import concurrent.futures
 from concurrent.futures import ThreadPoolExecutor
 from flask import Flask, render_template, request as flask_request, redirect, url_for, flash
 import os
@@ -37,19 +38,46 @@ def file_tools():
 def web_tool():
     user_url = flask_request.form.get('web_input')
     domain, ip_str, title, favicon = website_information(user_url)
-    cookies = get_cookies(user_url)
-    headers = get_headers(user_url)
-    ip_info = get_ip_info(ip_str)
-    dns_records = get_records(domain)
-    ssl_cert = get_ssl(domain)
     large_json = {
-        "ip_info": ip_info if ip_info else {},
-        "cookies": cookies if cookies else {},
-        "headers": headers if headers else {},
-        "dns_records": dns_records if dns_records else {},
-        "ssl_info": ssl_cert if ssl_cert else {}
+        "ip_info": {},
+        "cookies": {},
+        "headers": {},
+        "dns_records": {},
+        "ssl_info": {},
+        'redirects': {}
     }
-    print(json.dumps(large_json))
+
+    with concurrent.futures.ThreadPoolExecutor() as executor:
+        # Submit tasks for all functions with the same input
+        redirect_future = executor.submit(get_redirects, user_url)
+        cookies_future = executor.submit(get_cookies, user_url)
+        headers_future = executor.submit(get_headers, user_url)
+        ip_info_future = executor.submit(get_ip_info, ip_str)
+        dns_rec_future = executor.submit(get_records, domain)
+        ssl_cer_future = executor.submit(get_ssl, domain)
+
+    # Map the futures to the corresponding keys in the dictionary
+        future_mapping = {
+            redirect_future: "redirects",
+            cookies_future: "cookies",
+            headers_future: "headers",
+            ip_info_future: "ip_info",
+            dns_rec_future: "dns_records",
+            ssl_cer_future: "ssl_info"
+        }
+
+        # Wait for all tasks to complete using as_completed
+        futures = [redirect_future, cookies_future, headers_future,
+                   ip_info_future, dns_rec_future, ssl_cer_future]
+        for future in concurrent.futures.as_completed(futures):
+            try:
+                result = future.result()
+                key = future_mapping[future]
+                large_json[key] = result
+
+            except Exception as e:
+                # Handle exceptions raised during execution
+                print(f"Error: {e}")
     return render_template('web_tools.html', user_url=domain, ip_info=ip_str, title=title, favicon=favicon, web_info=json.dumps(large_json))
 
 
@@ -63,14 +91,16 @@ def pid_tool():
 def upload():
     uploaded_file = flask_request.files['fileToUpload']
     if flask_request.files['fileToUpload'].filename == '':
-      return render_template('file_input.html')
-    
+        return render_template('file_input.html')
+
     try:
-        PillowDict, coords, exifreadVersion, tags, presentTags, ExifDict = get_exif(uploaded_file)
+        PillowDict, coords, exifreadVersion, tags, presentTags, ExifDict = get_exif(
+            uploaded_file)
         return render_template("report.html", PillowDict=PillowDict, coords=coords, exifreadVersion=exifreadVersion, tags=tags, presentTags=presentTags, ExifDict=ExifDict)
     except ValueError:
         PillowDict = get_exif(uploaded_file)
         return render_template("report.html", PillowDict=PillowDict)
 
+
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=True, port=5001)
