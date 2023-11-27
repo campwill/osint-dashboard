@@ -55,18 +55,17 @@ def website_information(website):
 
 
 def get_redirects(url):
-    print(url)
     try:
         response = requests.get(url, allow_redirects=True)
         response.raise_for_status()
-        redirects = response.history
-        print(redirects)
+        redirects = [] if response.history else response.history
         final_url = response.url
-        return redirects, final_url
+        redirects_dict = {"redirects": redirects, "final url": final_url}
+        return redirects_dict
     except requests.RequestException as e:
         # Log the error for debugging
         print(f"An error occurred: {e}")
-        return [], None
+        return None
 
 
 def get_cookies(domain):
@@ -136,3 +135,46 @@ def get_ssl(hostname, port=443):
         "not_valid_after": certificate.not_valid_after.isoformat()
     }
     return certificate_info
+
+
+def get_sitemaps(website):
+    robotstxturl = parse.urljoin(website, "robots.txt")
+    try:
+        rp = robotparser.RobotFileParser()
+        rp.set_url(robotstxturl)
+        rp.read()
+        sitemaps = rp.site_maps()
+    except robotparser.RobotFileParserError as e:
+        print(f"error: {e}")
+    except Exception as e:
+        print(f"Error: {e}")
+
+    return sitemaps
+
+
+def sitemap_parser(sitemap):
+    r = request.urlopen(sitemap)
+    xml = r.read().decode('utf8')
+    elements = re.findall(r'<loc>(.*?)<\/loc>', xml, re.DOTALL)
+
+    urls = []
+
+    for element in elements:
+        if element.endswith('.xml'):
+            # Recursively call sitemap_parser
+            urls.extend(sitemap_parser(element))
+        else:
+            urls.append(element)
+
+    return urls
+
+
+def site_maps(url):
+    sitemaps = get_sitemaps(url)
+
+    all_urls = []
+
+    for sitemap in sitemaps:
+        all_urls.extend(sitemap_parser(sitemap))
+
+    urls_dict = {"Pages": all_urls}

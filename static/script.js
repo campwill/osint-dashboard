@@ -58,6 +58,12 @@ var toolsConfig = [
         dataKey:"ssl_info",
         dictionary:{},
         ignoredItems:[]
+    },
+    {
+        containerSelector:".redirects-info",
+        dataKey: "redirects",
+        dictionary:{},
+        ignoredItems:[]
     }
 
 ];

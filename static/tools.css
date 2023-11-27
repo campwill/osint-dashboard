@@ -22,11 +22,7 @@ body {
   flex: 1;
 }
 
-.ip-information,
-.DNS-info,
-.cookies-info,
-.header-info,
-.SSL-info {
+.tool-info {
   display: inline-block;
   vertical-align: top;
   border: 1px solid #F4FAFF;
@@ -36,10 +32,14 @@ body {
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   background-color: #004165;
   font-family: 'Roboto', sans-serif;
+  font-size: 14px;
   word-wrap: break-word;
   color: #F4FAFF;
-  line-height: 1.5 ;
+  line-height: 1.5;
+  max-height: 1000px; /* Set a max height for the container */
+  overflow-y: auto; /* Add vertical scrollbar if content exceeds max height */
 }
+
 
 #dash-board {
   border: 1px solid #004165;
