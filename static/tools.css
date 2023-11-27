@@ -9,8 +9,8 @@ body {
   display: flex;
   justify-content: center;
   text-align: center;
-  border-bottom: 2px solid #F4FAFF;
-  padding: 20px;
+
+  
 }
 #tools-container {
   display: flex;
@@ -36,8 +36,9 @@ body {
   word-wrap: break-word;
   color: #F4FAFF;
   line-height: 1.5;
-  max-height: 1000px; /* Set a max height for the container */
-  overflow-y: auto; /* Add vertical scrollbar if content exceeds max height */
+  max-height: 1000px; 
+  overflow-y: auto; 
+  filter:drop-shadow(2.5px 2.5px white)
 }
 
 
@@ -105,6 +106,42 @@ h1 {
   background-color: #004165;
   color: #F4FAFF;
 }
+
+.question-mark {
+  font-size: 24px; /* Adjust the font size as needed */
+  vertical-align: top;
+  float: right;
+  line-height: 20px;
+  cursor: pointer;
+}
+.modal {
+  display: none;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  padding: 15px;
+  background-color: #F4FAFF;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+  font-family: 'Roboto', sans-serif;
+  font-size: 14px;
+  word-wrap: break-word;
+  color: #004165;
+  line-height: 1.5;
+  border-radius: 10px;
+  max-width: 300px;
+  outline: 2px solid #004165;
+}
+
+.close {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  cursor: pointer;
+  color: #004165;
+}
+
 
 
 /* Report.html*/

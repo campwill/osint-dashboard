@@ -4,15 +4,26 @@ String.prototype.toProperCase = function () {
 function createAndAppendElements(data, container, dictionary, ignoredItems) {
     for (var key in data) {
         if (!ignoredItems.includes(key)) {
-            var item = document.createElement("div");
-            var value = key in dictionary ? dictionary[key] + ": " + data[key] : key.toProperCase() + ": " + data[key];
-            item.innerText = value;
-            container.appendChild(item);
             var hr = document.createElement("hr");
             container.appendChild(hr);
+            var item = document.createElement("div");
+
+            var value;
+            if (Array.isArray(data[key])) {
+                value = key.toProperCase() + ": ";
+                data[key].forEach(function (element) {
+                    value += element + "<br>";
+                });
+            } else {
+                value = key in dictionary ? dictionary[key] + ": " + data[key] : key.toProperCase() + ": " + data[key];
+            }
+
+            item.innerHTML = value;
+            container.appendChild(item);
         }
     }
 }
+
 var toolsConfig = [
     {
         containerSelector: ".cookies-info",
@@ -64,6 +75,12 @@ var toolsConfig = [
         dataKey: "redirects",
         dictionary:{},
         ignoredItems:[]
+    },
+    {
+        containerSelector:".sitemap-info",
+        dataKey:"sitemap",
+        dictionary:{},
+        ignoredItems:[]
     }
 
 ];
@@ -76,3 +93,4 @@ document.addEventListener('DOMContentLoaded', function() {
         createAndAppendElements(largeJsonData[config.dataKey], container, config.dictionary, config.ignoredItems);
     });
 });
+
