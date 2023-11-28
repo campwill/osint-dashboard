@@ -1,6 +1,6 @@
 from urllib.parse import urlparse
 from urllib.request import urlopen
-from urllib import request
+from urllib import parse, robotparser, request
 import requests
 import ipinfo
 from dotenv import load_dotenv
@@ -9,6 +9,7 @@ import dns.resolver
 import ssl
 from cryptography import x509
 from cryptography.hazmat.backends import default_backend
+from concurrent.futures import ThreadPoolExecutor
 import socket
 import os
 import re
@@ -40,6 +41,8 @@ def website_information(website):
     title = findTitle(website)
     parsed_url = urlparse(website)
     domain = parsed_url.netloc
+    if domain.startswith("www."):
+        domain = domain[4:]
     try:
         ip_addresses = [res[4][0] for res in socket.getaddrinfo(domain, 80)]
         # Choosing the first IP address from the list
@@ -54,18 +57,22 @@ def website_information(website):
         return (domain, ip_address, title, favicon_link)
 
 
-def get_redirects(url):
-    try:
-        response = requests.get(url, allow_redirects=True)
-        response.raise_for_status()
-        redirects = [] if response.history else response.history
-        final_url = response.url
-        redirects_dict = {"redirects": redirects, "final url": final_url}
-        return redirects_dict
-    except requests.RequestException as e:
-        # Log the error for debugging
-        print(f"An error occurred: {e}")
-        return None
+def get_redirects(url, max_redirects=10):
+    redirects = []
+    for _ in range(max_redirects):
+        try:
+            response = requests.get(url, allow_redirects=False)
+            response.raise_for_status()
+        except requests.exceptions.RequestException as e:
+            return {'Error': f'Failed to fetch URL: {e}'}
+        if 300 <= response.status_code < 400:
+            redirects.append(url)
+
+            url = response.headers['Location']
+        else:
+            break
+
+    return {'Redirects': redirects, 'Final URL': url}
 
 
 def get_cookies(domain):
@@ -153,28 +160,80 @@ def get_sitemaps(website):
 
 
 def sitemap_parser(sitemap):
-    r = request.urlopen(sitemap)
-    xml = r.read().decode('utf8')
-    elements = re.findall(r'<loc>(.*?)<\/loc>', xml, re.DOTALL)
+    try:
+        r = request.urlopen(sitemap)
+        xml = r.read().decode('utf8')
+        elements = re.findall(r'<loc>(.*?)<\/loc>', xml, re.DOTALL)
 
-    urls = []
+        urls = []
 
-    for element in elements:
-        if element.endswith('.xml'):
-            # Recursively call sitemap_parser
-            urls.extend(sitemap_parser(element))
-        else:
-            urls.append(element)
+        for element in elements:
+            try:
+                if element.endswith('.xml'):
+                    # Recursively call sitemap_parser
+                    urls.extend(sitemap_parser(element))
+                else:
+                    urls.append(element)
+            except Exception as e:
+                print(f"Error parsing sub-sitemap '{element}': {str(e)}")
 
-    return urls
+        return urls
+    except Exception as e:
+        print(f"Error accessing sitemap '{sitemap}': {str(e)}")
+        return []
 
 
 def site_maps(url):
     sitemaps = get_sitemaps(url)
-
+    if sitemaps is None:
+        return {"Pages": []}
     all_urls = []
 
     for sitemap in sitemaps:
         all_urls.extend(sitemap_parser(sitemap))
 
     urls_dict = {"Pages": all_urls}
+
+    return (urls_dict)
+
+
+def find_open_port(hostname, port):
+    sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    sock.settimeout(1)
+
+    result = sock.connect_ex((hostname, port))
+    sock.close()
+
+    return result == 0
+
+
+def check_ports(url):
+    ports_to_check = [21, 22, 23, 25, 53, 80, 110,
+                      143, 443, 465, 587, 993, 995, 3306, 3389, 8080]
+    open_ports = []
+    with ThreadPoolExecutor() as executor:
+        results = list(executor.map(lambda port: (
+            port, find_open_port(url, port)), ports_to_check))
+
+    for port, is_open in results:
+        if is_open:
+            open_ports.append(port)
+    return {"Open Ports": open_ports}
+
+
+def whois_info(domain):
+    d, ex = domain.split('.')
+    url = f"https://webwhois.verisign.com/webwhois-ui/rest/whois?q={d}&tld={ex}&type=domain"
+    response = requests.get(url)
+
+    if response.status_code == 200:
+        data = response.json()
+    text = data["message"]
+    lines = text.split('\n')
+    domain_data = {}
+
+    for i in range(17):
+        key, value = lines[i].split(':', 1)
+        domain_data[key] = value
+
+    return domain_data

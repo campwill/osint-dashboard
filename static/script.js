@@ -81,6 +81,18 @@ var toolsConfig = [
         dataKey:"sitemap",
         dictionary:{},
         ignoredItems:[]
+    },
+    {
+        containerSelector:".ports-info",
+        dataKey:"port_info",
+        dictionary:{},
+        ignoredItems:[]
+    },
+    {
+        containerSelector:".whois-info",
+        dataKey:"whois_info",
+        dictionary:{},
+        ignoredItems:[]
     }
 
 ];
