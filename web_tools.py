@@ -14,6 +14,10 @@ import socket
 import os
 import re
 
+#for screenshot
+from selenium import webdriver
+from selenium.webdriver.chrome.options import Options
+import base64
 
 def is_valid_url(url):
     try:
@@ -237,3 +241,27 @@ def whois_info(domain):
         domain_data[key] = value
 
     return domain_data
+
+def get_screenshot(url):
+    chrome_options = Options()
+    chrome_options.add_argument('--headless')  # Run Chrome in headless mode (no GUI)
+    
+    driver = webdriver.Chrome(options=chrome_options)
+    
+    try:
+        driver.get(url)
+        
+        # Wait for some time to let the page load (adjust this according to your needs)
+        driver.implicitly_wait(10)
+        
+        # Capture a screenshot and convert it to base64
+        screenshot_base64 = driver.get_screenshot_as_base64()
+        
+        return {"screenshot": screenshot_base64}
+        
+    except Exception as e:
+        print(f'Error: {e}')
+
+    finally:
+        # Close the WebDriver
+        driver.quit()

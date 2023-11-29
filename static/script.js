@@ -3,7 +3,16 @@ String.prototype.toProperCase = function () {
 };
 function createAndAppendElements(data, container, dictionary, ignoredItems) {
     for (var key in data) {
-        if (!ignoredItems.includes(key)) {
+        if (key == 'screenshot'){
+            var hr = document.createElement("hr");
+            container.appendChild(hr);
+            var item = document.createElement("div");
+            value = key.toProperCase() + ": <img style=\"height: 100%; width:100%;\" src=\"data:image/png;base64," + data[key] + "\"\\>"
+
+            item.innerHTML = value;
+            container.appendChild(item)
+        }
+        else if (!ignoredItems.includes(key)) {
             var hr = document.createElement("hr");
             container.appendChild(hr);
             var item = document.createElement("div");
@@ -93,8 +102,13 @@ var toolsConfig = [
         dataKey:"whois_info",
         dictionary:{},
         ignoredItems:[]
+    },
+    {
+        containerSelector:".screenshot-info",
+        dataKey:"screenshot",
+        dictionary:{},
+        ignoredItems:[]
     }
-
 ];
 document.addEventListener('DOMContentLoaded', function() {
     var largeJsonScript = document.getElementById('large-json-data');

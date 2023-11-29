@@ -47,7 +47,8 @@ def web_tool():
         'redirects': {},
         'sitemap': {},
         'port_info': {},
-        'whois_info': {}
+        'whois_info': {},
+        'screenshot': {}
     }
 
     with concurrent.futures.ThreadPoolExecutor() as executor:
@@ -61,6 +62,7 @@ def web_tool():
         sitemap_future = executor.submit(site_maps, user_url)
         port_info_future = executor.submit(check_ports, domain)
         whois_info_future = executor.submit(whois_info, domain)
+        screenshot_future = executor.submit(get_screenshot, user_url)
 
     # Map the futures to the corresponding keys in the dictionary
         future_mapping = {
@@ -72,13 +74,14 @@ def web_tool():
             ssl_cer_future: "ssl_info",
             sitemap_future: "sitemap",
             port_info_future: "port_info",
-            whois_info_future: "whois_info"
+            whois_info_future: "whois_info",
+            screenshot_future: "screenshot"
         }
 
         # Wait for all tasks to complete using as_completed
         futures = [redirect_future, cookies_future, headers_future,
                    ip_info_future, dns_rec_future, ssl_cer_future, sitemap_future,
-                   port_info_future, whois_info_future]
+                   port_info_future, whois_info_future, screenshot_future]
         for future in concurrent.futures.as_completed(futures):
             try:
                 result = future.result()
