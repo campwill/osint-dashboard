@@ -7,7 +7,7 @@ function createAndAppendElements(data, container, dictionary, ignoredItems) {
             var hr = document.createElement("hr");
             container.appendChild(hr);
             var item = document.createElement("div");
-            value = key.toProperCase() + ": <img style=\"height: 100%; width:100%;\" src=\"data:image/png;base64," + data[key] + "\"\\>"
+            value = "<img style=\"height: 100%; width:100%;\" src=\"data:image/png;base64," + data[key] + "\"\\>"
 
             item.innerHTML = value;
             container.appendChild(item)
@@ -29,6 +29,23 @@ function createAndAppendElements(data, container, dictionary, ignoredItems) {
 
             item.innerHTML = value;
             container.appendChild(item);
+
+            if(key === "country_name")
+            {
+                var hr = document.createElement("hr");
+                container.appendChild(hr);
+
+                var ipmap = document.createElement("div");
+                ipmap.setAttribute("id", "map")
+                ipmap.setAttribute("style", "height:40vh ;width:100%;")
+        
+                ipmap.innerHTML = value;
+                container.appendChild(ipmap)
+        
+                var map = L.map('map').setView([data["latitude"], data["longitude"]], 10);
+                L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
+                var marker = L.marker([data["latitude"], data["longitude"]]).addTo(map);
+            }
         }
     }
 }
@@ -46,12 +63,11 @@ var toolsConfig = [
         dictionary: {
             "ip" : "IP",
             "anycast" : "Anycast network architecture",
-            "loc" : "Coordinates",
             "org" : "Organization",
             "postal" : "ZIP Code",
             "country_name" : "Country"
         },
-        ignoredItems: ["isEU", "country_flag_url", "country", "country_flag", "country_currency", "continent", "latitude", "longitude"]
+        ignoredItems: ["isEU", "country_flag_url", "country", "country_flag", "country_currency", "continent", "loc"]
     },
     {
         containerSelector: ".header-info",

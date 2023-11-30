@@ -10,7 +10,8 @@
       rel="stylesheet"
       type="text/css"
     />
-    <style></style>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
   </head>
   <body>
     <div id="dropdown-container">
@@ -49,7 +50,6 @@
         <h1>{{title}}</h1>
         <h1>{{ip_info}}</h1>
       </div>
-
       <div id="tools-container">
         <div id="tool-column">
           <div class="ip-information tool-info">
@@ -76,24 +76,6 @@
               >&#63;</span
             >
           </div>
-          <div class="whois-info tool-info">
-            <b style="font-size: 20px">Whois:</b>
-            <span
-              class="question-mark"
-              onclick="showInfo('Whois', 'View information about the target Whois data; such as registry and domain status report.')"
-              >&#63;</span
-            >
-          </div>
-        </div>
-        <div id="tool-column">
-          <div class="header-info tool-info">
-            <b style="font-size: 20px">Headers Information:</b>
-            <span
-              class="question-mark"
-              onclick="showInfo('Header Information', 'View information about the Headers gathered in the analysis; such as cache and content encoding data.')"
-              >&#63;</span
-            >
-          </div>
           <div class="sitemap-info tool-info">
             <b style="font-size: 20px">Sitemap:</b>
             <span
@@ -102,6 +84,26 @@
               >&#63;</span
             >
           </div>
+        </div>
+        <div id="tool-column">
+          <div class="whois-info tool-info">
+            <b style="font-size: 20px">Whois:</b>
+            <span
+              class="question-mark"
+              onclick="showInfo('Whois', 'View information about the target Whois data; such as registry and domain status report.')"
+              >&#63;</span
+            >
+          </div>
+          <div class="header-info tool-info">
+            <b style="font-size: 20px">Headers Information:</b>
+            <span
+              class="question-mark"
+              onclick="showInfo('Header Information', 'View information about the Headers gathered in the analysis; such as cache and content encoding data.')"
+              >&#63;</span
+            >
+          </div>
+        </div>
+        <div id="tool-column">
           <div class="screenshot-info tool-info">
             <b style="font-size: 20px">Screenshot:</b>
             <span
@@ -110,8 +112,6 @@
               >&#63;</span
             >
           </div>
-        </div>
-        <div id="tool-column">
           <div class="DNS-info tool-info">
             <b style="font-size: 20px">DNS Records:</b>
             <span
