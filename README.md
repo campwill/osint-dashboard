@@ -17,6 +17,4 @@ The OSINT Dashboard is a web-based Open Source Intelligence (OSINT) tool designe
 
     Email Lookup
 
-    Reverse Image/Text Lookup
-
 The OSINT Dashboard will not only collect and present this information but will also provide users with links to various OSINT tools that it utilizes. It aims to simplify the process of gathering data from diverse sources, making it a valuable resource for OSINT investigators and researchers.
