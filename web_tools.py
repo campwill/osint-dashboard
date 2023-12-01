@@ -1,10 +1,11 @@
+import http.cookiejar
+import urllib.request
 from urllib.parse import urlparse
 from urllib.request import urlopen
 from urllib import parse, robotparser, request
 import requests
 import ipinfo
 from dotenv import load_dotenv
-import json
 import dns.resolver
 import ssl
 from cryptography import x509
@@ -14,10 +15,11 @@ import socket
 import os
 import re
 
-#for screenshot
+# for screenshot
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 import base64
+
 
 def is_valid_url(url):
     try:
@@ -27,13 +29,24 @@ def is_valid_url(url):
         return False
 
 
-def findTitle(url):
+def findTitle(url, timeout=10):
     try:
-        req = request.Request(url, headers={'User-Agent': 'Mozilla/5.0'})
-        with request.urlopen(req) as response:
-            html_content = response.read()
-            return (str(html_content).split('<title>')[1].split('</title>')[0])
-    except IndexError:
+        cookiejar = http.cookiejar.CookieJar()
+
+        opener = urllib.request.build_opener(
+            urllib.request.HTTPCookieProcessor(cookiejar))
+        urllib.request.install_opener(opener)
+
+        headers = {
+            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3'}
+        req = urllib.request.Request(url, headers=headers)
+
+        with urllib.request.urlopen(req, timeout=timeout) as response:
+            html_content = response.read().decode('utf-8')
+            return html_content.split('<title>')[1].split('</title>')[0]
+    except (IndexError, urllib.error.HTTPError):
+        return ""
+    except socket.timeout:
         return ""
 
 
@@ -47,25 +60,22 @@ def website_information(website):
     domain = parsed_url.netloc
     if domain.startswith("www."):
         domain = domain[4:]
-    try:
-        ip_addresses = [res[4][0] for res in socket.getaddrinfo(domain, 80)]
-        # Choosing the first IP address from the list
-        ip_address = ip_addresses[0]
-        with urlopen(website) as response:
-            website_html = response.read().decode('utf-8')
-        favicon_link = get_favicon(domain)
-        return (domain, ip_address, title, favicon_link)
-    except (socket.gaierror, OSError):
-        _, ip_address, _, favicon_link = website_information(
-            get_redirects(website)[1])
-        return (domain, ip_address, title, favicon_link)
+
+    ip_addresses = [res[4][0] for res in socket.getaddrinfo(domain, 80)]
+    # Choosing the first IP address from the list
+    ip_address = ip_addresses[0]
+    favicon_link = get_favicon(domain)
+    return (domain, ip_address, title, favicon_link)
 
 
-def get_redirects(url, max_redirects=10):
+def get_redirects(url, max_redirects=10, timeout=10):
     redirects = []
     for _ in range(max_redirects):
         try:
-            response = requests.get(url, allow_redirects=False)
+            headers = {
+                'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'}
+            response = requests.get(
+                url, allow_redirects=False, timeout=timeout, headers=headers)
             response.raise_for_status()
         except requests.exceptions.RequestException as e:
             return {'Error': f'Failed to fetch URL: {e}'}
@@ -79,18 +89,29 @@ def get_redirects(url, max_redirects=10):
     return {'Redirects': redirects, 'Final URL': url}
 
 
-def get_cookies(domain):
-    response = requests.get(domain)
-    cookies = response.cookies
-    cookies_dict = {cookie.name: cookie.value for cookie in cookies}
-    return cookies_dict
+def get_cookies(domain, timeout=5):
+    try:
+        response = requests.get(domain, timeout=timeout)
+        cookies = response.cookies
+        cookies_dict = {cookie.name: cookie.value for cookie in cookies}
+        return cookies_dict
+
+    except requests.exceptions.Timeout as e:
+        return {'Error': f'Timeout error: {e}'}
+    except requests.exceptions.RequestException as e:
+        return {'Error': f'Failed to fetch URL: {e}'}
 
 
-def get_headers(domain):
-    response = requests.get(domain)
-    headers = response.headers
-    headers_dict = {header: value for header, value in headers.items()}
-    return headers_dict
+def get_headers(domain, timeout=5):
+    try:
+        response = requests.get(domain, timeout=timeout)
+        headers = response.headers
+        headers_dict = {header: value for header, value in headers.items()}
+        return headers_dict
+    except requests.exceptions.Timeout as e:
+        return {'Error': f'Timeout error: {e}'}
+    except requests.exceptions.RequestException as e:
+        return {'Error': f'Failed to fetch URL: {e}'}
 
 
 load_dotenv()
@@ -226,39 +247,50 @@ def check_ports(url):
 
 
 def whois_info(domain):
-    d, ex = domain.split('.')
-    url = f"https://webwhois.verisign.com/webwhois-ui/rest/whois?q={d}&tld={ex}&type=domain"
-    response = requests.get(url)
+    valid_tld = ['cc', 'com', 'edu', 'name', 'net']
+    try:
+        sd, tld = domain.split('.')
+        if (tld not in valid_tld):
+            return {'error': 'The OSINT Dashboard only accepts these top level domains: .cc .com .edu .name .net '}
+        url = f"https://webwhois.verisign.com/webwhois-ui/rest/whois?q={sd}&tld={tld}&type=domain"
+        response = requests.get(url)
 
-    if response.status_code == 200:
-        data = response.json()
-    text = data["message"]
-    lines = text.split('\n')
-    domain_data = {}
+        if response.status_code == 200:
+            data = response.json()
+            text = data["message"]
+            lines = text.split('\n')
+            domain_data = {}
 
-    for i in range(17):
-        key, value = lines[i].split(':', 1)
-        domain_data[key] = value
+            for i in range(17):
+                key, value = lines[i].split(':', 1)
+                # Remove leading/trailing whitespaces
+                domain_data[key] = value.strip()
 
-    return domain_data
+            return domain_data
+        else:
+            return {"error": f"Unable to fetch data. Status code: {response.status_code}"}
+    except Exception as e:
+        return {"error": f"An error occurred: {e}"}
+
 
 def get_screenshot(url):
     chrome_options = Options()
-    chrome_options.add_argument('--headless')  # Run Chrome in headless mode (no GUI)
-    
+    # Run Chrome in headless mode (no GUI)
+    chrome_options.add_argument('--headless')
+
     driver = webdriver.Chrome(options=chrome_options)
-    
+
     try:
         driver.get(url)
-        
+
         # Wait for some time to let the page load (adjust this according to your needs)
         driver.implicitly_wait(10)
-        
+
         # Capture a screenshot and convert it to base64
         screenshot_base64 = driver.get_screenshot_as_base64()
-        
+
         return {"screenshot": screenshot_base64}
-        
+
     except Exception as e:
         print(f'Error: {e}')
 

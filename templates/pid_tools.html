@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>PID Tools</title>
-    <link rel="stylesheet" type="text/css" href="static/web_tools.css" />
+    <link rel="stylesheet" type="text/css" href="static/tools.css" />
     <link
       href="http://fonts.googleapis.com/css?family=Roboto"
       rel="stylesheet"
@@ -41,9 +41,56 @@
 
       <div id="tools-container">
         <div id="tool-column">
+          <div class="number-info tool-info">
+            <b style="font-size: 20px">Phone Number Information:</b>
+            <span
+              class="question-mark"
+              onclick="showInfo('IP Information', 'View information about the target IP address; such as hostname, location, organization, etc.')"
+              >&#63;</span
+            >
+          </div>
           
       </div>
     </div>
+    <script
+      id="large-json-data"
+      type="application/json"
+      data-large-json="{{number_info}}" 
+    >
+    </script>
+    <script>
+      String.prototype.toProperCase = function () {
+          return this.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
+      };
+      function createAndAppendElements(data, container, dictionary, ignoredItems) {
+          for (var key in data) {
+                  var hr = document.createElement("hr");
+                  container.appendChild(hr);
+                  var item = document.createElement("div");
 
+                  value = key in dictionary ? dictionary[key] + ": " + data[key] : key.toProperCase() + ": " + data[key];
+                  item.innerHTML = value;
+                  container.appendChild(item);
+          }
+      }
+
+      var toolsConfig = [
+          {
+              containerSelector: ".number-info",
+              dataKey: "phone_number_info",
+              dictionary: {},
+              ignoredItems: []
+          }
+      ];
+      document.addEventListener('DOMContentLoaded', function() {
+          var largeJsonScript = document.getElementById('large-json-data');
+          var largeJsonData = JSON.parse(largeJsonScript.getAttribute('data-large-json'));
+
+          toolsConfig.forEach(function (config) {
+              var container = document.querySelector(config.containerSelector);
+              createAndAppendElements(largeJsonData[config.dataKey], container, config.dictionary, config.ignoredItems);
+          });
+      });
+    </script>
   </body>
 </html>

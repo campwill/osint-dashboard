@@ -1,10 +1,12 @@
 import concurrent.futures
 from concurrent.futures import ThreadPoolExecutor
-from flask import Flask, render_template, request as flask_request, redirect, url_for, flash
+from flask import Flask, render_template, request as flask_request, redirect, url_for, flash, jsonify
 import os
 from web_tools import *
 from file_tools import *
+from pid_tools import *
 from dotenv import load_dotenv
+
 
 app = Flask(__name__)
 app.config['TEMPLATES_AUTO_RELOAD'] = True
@@ -26,6 +28,7 @@ def web_input():
 
 @app.route('/pid-input')
 def pid_input():
+
     return render_template('pid_input.html')
 
 
@@ -37,6 +40,14 @@ def file_tools():
 @app.route('/web_tool', methods=["POST"])
 def web_tool():
     user_url = flask_request.form.get('web_input')
+    if not user_url:
+        return jsonify({"error": "Please provide a valid URL"}), 400
+
+    url_pattern = re.compile(
+        r'^https://(?:www\.)?[a-zA-Z0-9-]+(?:\.[a-zA-Z]{2,})+(?:/[^/\s]*)?$')
+    if not url_pattern.match(user_url):
+        return jsonify({"error": "Please provide a valid HTTPS URL"}), 400
+
     domain, ip_str, title, favicon = website_information(user_url)
     large_json = {
         "ip_info": {},
@@ -97,7 +108,8 @@ def web_tool():
 @app.route('/pid_tool', methods=["POST"])
 def pid_tool():
     number = flask_request.form.get('phone_input')
-    return render_template('pid_tools.html', number=number)
+    number_info = get_phone_info(number)
+    return render_template('pid_tools.html', number=number, number_info=json.dumps(number_info))
 
 
 @app.route('/upload', methods=['POST'])
