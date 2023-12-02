@@ -70,15 +70,9 @@
         <div id="map" style="width: 600px; height: 400px"></div>
         <script>
           var coords = {{ coords | tojson | safe }};
-          
-          var map = L.map('map').setView([coords.latitude, coords.longitude], 13);
-    
-          L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-              attribution: '© OpenStreetMap contributors'
-          }).addTo(map);
-    
-          L.marker([coords.latitude, coords.longitude]).addTo(map)
-              .bindPopup('Your Marker Popup Content').openPopup();
+          var map = L.map('map').setView([coords.Latitude, coords.Longitude], 13);
+          L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
+          var marker = L.marker([coords.Latitude, coords.Longitude]).addTo(map);
         </script>        
       </div>
       {% endif %}
