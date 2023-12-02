@@ -15,7 +15,6 @@ dnspython==2.4.2
 exceptiongroup==1.2.0
 ExifRead==3.0.0
 Flask==3.0.0
-folium==0.15.0
 frozenlist==1.4.0
 h11==0.14.0
 idna==3.6

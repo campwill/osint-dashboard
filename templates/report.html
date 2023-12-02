@@ -10,6 +10,8 @@
       rel="stylesheet"
       type="text/css"
     />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
     <style></style>
   </head>
   <body>
@@ -24,7 +26,6 @@
       <h1 id="title">OSINT DASHBOARD</h1>
       <button id="save-as-pdf-button" onclick="saveAsPDF()">Save as PDF</button>
     </div>
-
     <script>
       function printFunction() {
         var tempTitle = document.title;
@@ -41,7 +42,6 @@
       <div style="text-align: center; margin-bottom: 20px">
         <h2>File Information</h2>
       </div>
-
       <div class="section">
         {% for key in PillowDict %}
         <div class="info-block">
@@ -53,6 +53,36 @@
         {% endif %} {% endfor %}
       </div>
 
+      {% if coords %}
+      <div style="text-align: center; margin-bottom: 20px">
+        <h2>Location Information</h2>
+      </div>
+      <div class="section">
+        {% for coord in coords %}
+        <div class="info-block">
+          <p><strong>{{ coord }}: </strong>{{ coords[coord] }}</p>
+        </div>
+        {% if not loop.last %}
+        <!-- Add separator if not the last iteration -->
+        <hr />
+        {% endif %}{% endfor %}
+        <hr />
+        <div id="map" style="width: 600px; height: 400px"></div>
+        <script>
+          var coords = {{ coords | tojson | safe }};
+          
+          var map = L.map('map').setView([coords.latitude, coords.longitude], 13);
+    
+          L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+              attribution: '© OpenStreetMap contributors'
+          }).addTo(map);
+    
+          L.marker([coords.latitude, coords.longitude]).addTo(map)
+              .bindPopup('Your Marker Popup Content').openPopup();
+        </script>        
+      </div>
+      {% endif %}
+
       {% if presentTags %}
       <div style="text-align: center; margin-top: 20px">
         <h2>Exif Data</h2>
@@ -61,7 +91,6 @@
         <div class="info-block">
           <p><strong>ExifRead Version: </strong>{{ exifreadVersion }}</p>
         </div>
-
         {% for value in presentTags %}
         <div class="info-block">
           <p><strong>{{ value }}:</strong> {{ presentTags[value] }}</p>

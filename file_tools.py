@@ -2,7 +2,6 @@ import exifread
 from PIL import Image
 from PIL.ExifTags import TAGS
 from PIL.ExifTags import GPSTAGS
-import folium
 import os
 import json
 directory = os.path.join(os.path.dirname(__file__), 'static')
@@ -73,15 +72,6 @@ def get_exif(uploaded_file):
 
                     coords.update({"Latitude": '{0:.10f}'.format(lat)})
                     coords.update({"Longitude": '{0:.10f}'.format(long)})
-
-                    # create map
-                    m = folium.Map(location=[lat, long], zoom_start=10)
-                    folium.Marker(location=[lat, long], fill=True, popup=('{0:.10f}'.format(
-                        lat) + ",\n" + '{0:.10f}'.format(long)), color='red', fill_color='red').add_to(m)
-                    m.save('templates/map.html')
-
-                    # open map
-                    foliummap = open('templates/map.html')
 
         # exifread version
         exifreadVersion = exifread.__version__

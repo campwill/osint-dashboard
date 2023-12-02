@@ -119,8 +119,7 @@ def upload():
         return render_template('file_input.html')
 
     try:
-        PillowDict, coords, exifreadVersion, tags, presentTags, ExifDict = get_exif(
-            uploaded_file)
+        PillowDict, coords, exifreadVersion, tags, presentTags, ExifDict = get_exif(uploaded_file)
         return render_template("report.html", PillowDict=PillowDict, coords=coords, exifreadVersion=exifreadVersion, tags=tags, presentTags=presentTags, ExifDict=ExifDict)
     except ValueError:
         PillowDict = get_exif(uploaded_file)
