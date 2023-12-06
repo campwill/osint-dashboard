@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>File/Image Input</title>
+    <title>File Upload</title>
     <style>
       body {
         display: flex;
@@ -33,7 +33,7 @@
   <body>
     <div class="container">
       <label for="file_input"
-        >Enter File/Image and hit go to begin analysis</label
+        >Upload File (.jpg, .jpeg, .png, .gif, or .tiff):</label
       >
       <form action="/upload" method="post" enctype="multipart/form-data">
         <div class="input-container">
@@ -41,7 +41,7 @@
             class="form-control"
             type="file"
             name="fileToUpload"
-            accept=".jpg,.jpeg,.png,.gif"
+            accept=".jpg,.jpeg,.png,.gif,.tiff"
             id="file"
             required
           />

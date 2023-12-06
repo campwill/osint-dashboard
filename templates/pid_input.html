@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>PID Input</title>
+    <title>Phone Input</title>
     <style>
       body {
         display: flex;
@@ -12,31 +12,20 @@
         height: 100vh;
         margin: 0;
       }
-      .container {
-        display: flex;
-        flex-direction: row;
-        justify-content: space-between;
-        width: 80%;
-      }
-      form {
-        width: 45%;
-      }
-      input {
+      input[type="text"] {
         padding: 10px;
         font-size: 16px;
         border: 2px solid #ccc;
         border-radius: 5px;
         outline: none;
-        margin-top: 10px;
-        width: 50%;
       }
       .input-container {
         display: flex;
         flex-direction: column;
-        align-items: center;
       }
       button {
-        width: 25%;
+        width: 100px;
+        margin: 0 auto;
         margin-top: 10px;
       }
     </style>
@@ -45,31 +34,17 @@
     <div class="container">
       <form method="POST" action="/pid_tool" autocomplete="off">
         <div class="input-container">
-          <label for="phone_input">Enter Phone Number:</label>
+          <label for="phone_input">Enter a Phone Number (10 digits):</label>
           <input
             type="tel"
             name="phone_input"
             id="phone_input"
-            placeholder="Enter your phone number"
-            pattern="[0-9]+"
+            pattern="\d{10}"
             title="Please enter only numeric digits"
+            maxlength="10"
             required
           />
-          <button type="submit">Submit Phone</button>
-        </div>
-      </form>
-
-      <form method="POST" action="/contact_tool_email" autocomplete="off">
-        <div class="input-container">
-          <label for="email_input">Enter Email:</label>
-          <input
-            type="email"
-            name="email_input"
-            id="email_input"
-            placeholder="Enter your email"
-            required
-          />
-          <button type="submit">Submit Email</button>
+          <button type="submit">Go</button>
         </div>
       </form>
     </div>
