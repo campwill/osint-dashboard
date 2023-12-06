@@ -15,29 +15,9 @@
     <style></style>
   </head>
   <body>
-    <div id="dropdown-container">
-      <select id="dropdown-menu" onchange="location = this.value;">
-        <option value="" disabled selected style="display: none">
-          <a href="#menu"> &#9776; Menu </a>
-        </option>
-        <option value="/">Home</option>
-        <option value="/web-input">Web Input</option>
-        <option value="/web-input">URL Analysis</option>
-        <option value="/file-input">Exif Viewer</option>
-        <option value="/pid-input">Phone Lookup</option>
-      </select>
-      <h1 id="title">OSINT DASHBOARD</h1>
-      <button id="save-as-pdf-button" onclick="saveAsPDF()">Save as PDF</button>
-    </div>
-    <script>
-      function printFunction() {
-        var tempTitle = document.title;
-        document.title = "Exif Report.pdf";
-        window.print();
-        document.title = tempTitle;
-      }
-    </script>
     <div id="exif-information">
+      {% include 'header.html' %}
+
       <div id="info-container">
         <h1 style="text-align: center">Exif Report</h1>
       </div>
@@ -76,17 +56,16 @@
           var map = L.map('map').setView([coords.Latitude, coords.Longitude], 13);
           L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
           var marker = L.marker([coords.Latitude, coords.Longitude]).addTo(map);
-        </script>        
+        </script>
       </div>
-      {% endif %}
-
-      {% if presentTags %}
+      {% endif %} {% if presentTags %}
       <div style="text-align: center; margin-top: 20px">
         <h2>Exif Data</h2>
       </div>
       <div class="section">
         <div class="info-block">
           <p><strong>ExifRead Version: </strong>{{ exifreadVersion }}</p>
+          <hr />
         </div>
         {% for value in presentTags %}
         <div class="info-block">

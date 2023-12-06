@@ -1,15 +1,20 @@
-body {
-  background-color: #004165;
-  color: #F4FAFF;
-  margin: 0;
-  padding: 0;
+body{  background-color: rgb(240, 240, 240);
+}
+html{
+  font-family: 'Segoe UI', sans-serif;
+
 }
 
 #info-container {
   display: flex;
   justify-content: center;
   text-align: center;
-
+  background-color: #ffffff;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  width: auto;
+  max-width: 100%;
   
 }
 #tools-container {
@@ -25,87 +30,30 @@ body {
 .tool-info {
   display: inline-block;
   vertical-align: top;
-  border: 1px solid #F4FAFF;
   padding: 15px;
   margin: 10px;
-  border-radius: 10px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  background-color: #004165;
-  font-family: 'Roboto', sans-serif;
   font-size: 14px;
   word-wrap: break-word;
-  color: #F4FAFF;
   line-height: 1.5;
   max-height: 1000px; 
   overflow-y: auto; 
-  filter:drop-shadow(2.5px 2.5px white)
+
+  background-color: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 
 #dash-board {
-  border: 1px solid #004165;
-
-  background-color: #004165;
   display: flex;
   flex-direction: column;
 }
 
-h1 {
+h2 {
   font-size: 24px;
-  margin: 10px;
+  margin: 1%;
 }
 
-#dropdown-container {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  background-color: #F9F9F9;
-  padding: 20px;
-  border: 1px solid #F4FAFF;
-  border-radius: 5px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-}
-
-#dropdown-menu {
-  border: 1px solid #004165;
-  padding: 10px 20px;
-  text-align: center;
-  text-decoration: none;
-  display: inline-block;
-  font-size: 16px;
-  margin: 4px 2px;
-  cursor: pointer;
-  border-radius: 5px;
-  background-color: #F9F9F9;
-  color: #004165;
-}
-
-#title {
-  font-size: 50px;
-  color: #004165;
-  font-style: italic;
-  font-family: 'Ariel Bold', sans-serif;
-
-}
-
-#save-as-pdf-button {
-  border: 1px solid #004165;
-  padding: 10px 20px;
-  text-align: center;
-  text-decoration: none;
-  display: inline-block;
-  font-size: 16px;
-  margin: 4px 2px;
-  cursor: pointer;
-  border-radius: 5px;
-  background-color: #F9F9F9;
-  color: #004165;
-}
-
-#save-as-pdf-button:hover {
-  background-color: #004165;
-  color: #F4FAFF;
-}
 
 .question-mark {
   font-size: 24px; /* Adjust the font size as needed */
@@ -121,17 +69,16 @@ h1 {
   left: 50%;
   transform: translate(-50%, -50%);
   padding: 15px;
-  background-color: #F4FAFF;
+  background-color: rgb(240, 240, 240);
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   z-index: 1000;
-  font-family: 'Roboto', sans-serif;
   font-size: 14px;
   word-wrap: break-word;
-  color: #004165;
+  color: black;
   line-height: 1.5;
   border-radius: 10px;
   max-width: 300px;
-  outline: 2px solid #004165;
+  outline: 2px solid black;
 }
 
 .close {
@@ -149,21 +96,20 @@ h1 {
 .section {
   display: inline-block;
   vertical-align: top;
-  border: 1px solid #f4faff;
-  padding: 15px;
+  background-color: #ffffff;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);  padding: 15px;
   margin: 0 auto;
   border-radius: 10px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  background-color: #004165;
-  font-family: "Roboto", sans-serif;
   word-wrap: break-word;
-  color: #f4faff;
   line-height: 1.5;
   text-align: left;
   max-width: 600px;
   width: 100%;
-}
+  font-size: 14px;
 
+}
 .info-block strong {
   float: left;
 }

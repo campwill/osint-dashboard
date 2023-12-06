@@ -14,44 +14,16 @@
     <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
   </head>
   <body>
-    <div id="dropdown-container">
-      <select id="dropdown-menu" onchange="location = this.value;">
-        <option value="" disabled selected style="display: none">
-          <a href="#menu"> &#9776; Menu </a>
-        </option>
-        <option value="/">Home</option>
-        <option value="/web-input">URL Analysis</option>
-        <option value="/file-input">Exif Viewer</option>
-        <option value="/pid-input">Phone Lookup</option>
-      </select>
-      <h1 id="title">OSINT DASHBOARD</h1>
-      <button id="save-as-pdf-button" onclick="saveAsPDF()">Save as PDF</button>
-    </div>
+    {% include 'header.html' %}
 
-    <script>
-      function saveAsPDF() {
-        var tempTitle = document.title;
-        document.title = "OSINT Report.pdf";
-        window.print();
-        document.title = tempTitle;
-      }
-      function showInfo(title, content) {
-        document.getElementById("modal-title").textContent = title;
-        document.getElementById("modal-content").textContent = content;
-        document.getElementById("modal").style.display = "block";
-      }
-
-      function hideInfo() {
-        document.getElementById("modal").style.display = "none";
-      }
-    </script>
     <div id="dash-board">
       <div id="info-container">
-        <h1>{{user_url}}</h1>
-        <h1><img style="width: 32px; height: auto" src="{{ favicon }}" /></h1>
-        <h1>{{title}}</h1>
-        <h1>{{ip_info}}</h1>
+        <h2>{{user_url}}</h2>
+        <h2><img style="width: 32px; height: auto" src="{{ favicon }}" /></h2>
+        <h2>{{title}}</h2>
+        <h2>{{ip_info}}</h2>
       </div>
+
       <div id="tools-container">
         <div id="tool-column">
           <div class="ip-information tool-info">
@@ -121,7 +93,7 @@
             >
           </div>
           <div class="redirects-info tool-info">
-            <b style="font-size: 20px">Redirects:</b>
+            <b style="font-size: 20px">Page Redirects:</b>
             <span
               class="question-mark"
               onclick="showInfo('Redirects', 'View information about the Redirects detected in the target and where they branch out.')"
@@ -129,7 +101,7 @@
             >
           </div>
           <div class="ports-info tool-info">
-            <b style="font-size: 20px">Open Ports:</b>
+            <b style="font-size: 20px">Ports:</b>
             <span
               class="question-mark"
               onclick="showInfo('Open Ports', 'View information about the target open ports and what are they used for.')"
@@ -139,6 +111,7 @@
         </div>
       </div>
     </div>
+
     <div id="modal" class="modal">
       <span class="close" onclick="hideInfo()">&times;</span>
       <h2 id="modal-title"></h2>
@@ -149,6 +122,17 @@
       type="application/json"
       data-large-json="{{web_info}}"
     ></script>
+    <script>
+      function showInfo(title, content) {
+        document.getElementById("modal-title").textContent = title;
+        document.getElementById("modal-content").textContent = content;
+        document.getElementById("modal").style.display = "block";
+      }
+
+      function hideInfo() {
+        document.getElementById("modal").style.display = "none";
+      }
+    </script>
     <script src="static/script.js"></script>
   </body>
 </html>

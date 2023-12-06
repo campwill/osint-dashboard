@@ -12,32 +12,13 @@
     />
     <style></style>
   </head>
-  <body>
-    <div id="dropdown-container">
-      <select id="dropdown-menu" onchange="location = this.value;">
-        <option value="" disabled selected style="display: none">
-          <a href="#menu"> &#9776; Menu </a>
-        </option>
-        <option value="/">Home</option>
-        <option value="/web-input">URL Analysis</option>
-        <option value="/file-input">Exif Viewer</option>
-        <option value="/pid-input">Phone Lookup</option>
-      </select>
-      <h1 id="title">OSINT DASHBOARD</h1>
-      <button id="save-as-pdf-button" onclick="saveAsPDF()">Save as PDF</button>
-    </div>
 
-    <script>
-      function saveAsPDF() {
-        var tempTitle = document.title;
-        document.title = "OSINT Report.pdf";
-        window.print();
-        document.title = tempTitle;
-      }
-    </script>
     <div id="dash-board">
+        {% include 'header.html' %}
+
       <div id="info-container">
-        <h1>{{number}}</h1>
+        <h1 >{{number}]</h1>
+
 
       </div>
 

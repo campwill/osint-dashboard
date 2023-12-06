@@ -1,52 +1,102 @@
-* {
-  margin: 0;
-  padding: 10;
-  box-sizing: border-box;
+body{
+  background-color: rgb(240, 240, 240);
 }
-button {
-  border: none;
-  padding: 15px 30px;
-  cursor: pointer;
-  font-size: 20px;
-  border-radius: 5px;
-  color: #000; 
-  background-color: #fff; 
-  margin: 20px;
-  margin-top: 100px;
-  transition: background-color 0.3s, opacity 0.3s; 
+.blurb{
+  margin-bottom: 20px;
 }
 
-a.button-link {
+button {
+  border: 1px solid #004165;
+  text-align: center;
   text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  cursor: pointer;
+  border-radius: 5px;
+  background-color: #F9F9F9;
+  color: #004165;
 }
-button[type="web"] {
-  background-color: #fff;
+input[type="text"] {
+  padding: 10px;
+  font-size: 16px;
+  border: 2px solid #ccc;
+  border-radius: 5px;
+  outline: none;
 }
-button[type="image"] {
-  background-color: #fff;
+.input-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+
+  padding: 10%;
 }
-button[type="file"] {
-  background-color: #fff; 
+.inputs {
+  display: flex;
+  width: 100%; 
+  justify-content: space-between;
+  margin: 0 auto 2.5% auto;
 }
-button:hover {
-  background-color: #eee; 
-  opacity: 0.8;
+form {
+  background-color: #ffffff;
+  border: 1px solid #ddd;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  width: 400px;
+  margin: 0 10px; /* Adjust this property as needed */
 }
+
 .container {
   display: flex;
   flex-direction: column; 
-  align-items: center; 
   text-align: center; 
-  background-color: #f2f2f2; 
-  padding: 100px;
+
 }
 .credits {
   text-align: center;
-  padding: 20px;
-  background-color: #f2f2f2;
+  padding: 40px;
 }
-h1 {
-  font-family: Arial, sans-serif;
-  font-weight: bolder;
-  margin-bottom: 20px;
+
+html {
+  font-family: 'Segoe UI', sans-serif;
+
+}
+h2{
+  color: #004165;
+  font-family: 'Segoe UI 700', sans-serif;
+  margin-bottom: -5%;
+}
+
+
+
+.loading-screen {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(255, 255, 255, 0.8);
+  justify-content: center;
+  align-items: center;
+  animation: fadeIn 0.5s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.quote-container {
+  text-align: center;
+  margin-top: 20px;
+}
+
+.quote {
+  font-style: italic;
 }

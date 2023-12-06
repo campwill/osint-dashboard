@@ -21,22 +21,6 @@ def index():
     return render_template('index.html')
 
 
-@app.route('/web-input', methods=['GET', 'POST'])
-def web_input():
-    return render_template('web_input.html')
-
-
-@app.route('/pid-input')
-def pid_input():
-
-    return render_template('pid_input.html')
-
-
-@app.route('/file-input')
-def file_tools():
-    return render_template('file_input.html')
-
-
 @app.route('/web_tool', methods=["POST"])
 def web_tool():
     user_url = flask_request.form.get('web_input')
@@ -44,7 +28,7 @@ def web_tool():
         return jsonify({"error": "Please provide a valid URL"}), 400
 
     url_pattern = re.compile(
-        r'^https://(?:www\.)?[a-zA-Z0-9-]+(?:\.[a-zA-Z]{2,})+(?:/[^/\s]*)?$')
+        r'^http(s)://(?:www\.)?[a-zA-Z0-9-]+(?:\.[a-zA-Z]{2,})+(?:/[^/\s]*)?$')
     if not url_pattern.match(user_url):
         return jsonify({"error": "Please provide a valid HTTPS URL"}), 400
 
@@ -119,7 +103,8 @@ def upload():
         return render_template('file_input.html')
 
     try:
-        PillowDict, coords, exifreadVersion, tags, presentTags, ExifDict = get_exif(uploaded_file)
+        PillowDict, coords, exifreadVersion, tags, presentTags, ExifDict = get_exif(
+            uploaded_file)
         return render_template("report.html", PillowDict=PillowDict, coords=coords, exifreadVersion=exifreadVersion, tags=tags, presentTags=presentTags, ExifDict=ExifDict)
     except ValueError:
         PillowDict = get_exif(uploaded_file)

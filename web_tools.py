@@ -1,3 +1,5 @@
+import urllib.error as error
+import urllib.request as request
 import http.cookiejar
 import urllib.request
 from urllib.parse import urlparse
@@ -86,7 +88,7 @@ def get_redirects(url, max_redirects=10, timeout=10):
         else:
             break
 
-    return {'Redirects': redirects, 'Final URL': url}
+    return {'Redirected From': redirects, 'Final URL': url}
 
 
 def get_cookies(domain, timeout=5):
@@ -170,47 +172,55 @@ def get_ssl(hostname, port=443):
 
 
 def get_sitemaps(website):
+
+    print('huh')
     robotstxturl = parse.urljoin(website, "robots.txt")
+
     try:
-        rp = robotparser.RobotFileParser()
-        rp.set_url(robotstxturl)
-        rp.read()
-        sitemaps = rp.site_maps()
-    except robotparser.RobotFileParserError as e:
+        with request.urlopen(robotstxturl, timeout=5) as response:
+            rp = RobotFileParser()
+            rp.set_url(robotstxturl)
+            rp.read()
+            sitemaps = rp.site_maps()
+    except error.URLError as e:
         print(f"error: {e}")
+        sitemaps = []
     except Exception as e:
         print(f"Error: {e}")
+        sitemaps = []
 
     return sitemaps
 
 
 def sitemap_parser(sitemap):
     try:
-        r = request.urlopen(sitemap)
-        xml = r.read().decode('utf8')
-        elements = re.findall(r'<loc>(.*?)<\/loc>', xml, re.DOTALL)
+        # Set a timeout for the urlopen function
+        with request.urlopen(sitemap, timeout=10) as r:
+            xml = r.read().decode('utf8')
+            elements = re.findall(r'<loc>(.*?)<\/loc>', xml, re.DOTALL)
 
-        urls = []
+            urls = []
 
-        for element in elements:
-            try:
-                if element.endswith('.xml'):
-                    # Recursively call sitemap_parser
-                    urls.extend(sitemap_parser(element))
-                else:
-                    urls.append(element)
-            except Exception as e:
-                print(f"Error parsing sub-sitemap '{element}': {str(e)}")
+            for element in elements:
+                try:
+                    if element.endswith('.xml'):
+                        # Recursively call sitemap_parser
+                        urls.extend(sitemap_parser(element))
+                    else:
+                        urls.append(element)
+                except Exception as e:
+                    print(f"Error parsing sub-sitemap '{element}': {str(e)}")
 
+            return urls
+    except error.URLError as e:
         return urls
-    except Exception as e:
-        print(f"Error accessing sitemap '{sitemap}': {str(e)}")
-        return []
+    except socket.timeout as e:
+        return urls
 
 
 def site_maps(url):
     sitemaps = get_sitemaps(url)
-    if sitemaps is None:
+    if not sitemaps:
         return {"Pages": []}
     all_urls = []
 
@@ -219,7 +229,7 @@ def site_maps(url):
 
     urls_dict = {"Pages": all_urls}
 
-    return (urls_dict)
+    return urls_dict
 
 
 def find_open_port(hostname, port):

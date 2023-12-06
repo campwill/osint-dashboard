@@ -21,7 +21,7 @@ function createAndAppendElements(data, container, dictionary, ignoredItems) {
             if (Array.isArray(data[key])) {
                 value = key.toProperCase() + ": ";
                 data[key].forEach(function (element) {
-                    value += element + "<br>";
+                    value += "<br>"+element  ;
                 });
             } else {
                 value = key in dictionary ? dictionary[key] + ": " + data[key] : key.toProperCase() + ": " + data[key];
@@ -98,7 +98,7 @@ var toolsConfig = [
     {
         containerSelector:".redirects-info",
         dataKey: "redirects",
-        dictionary:{},
+        dictionary:{"Redirects": "Redirected From"},
         ignoredItems:[]
     },
     {
