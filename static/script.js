@@ -133,7 +133,7 @@ var toolsConfig = [
         ignoredItems:[]
     },
     {
-        containerSelector:".emails-info",
+        containerSelector:".email-info",
         dataKey:"email_info",
         dictionary:{},
         ignoredItems:[]
