@@ -27,26 +27,26 @@
       <div id="tools-container">
         <div id="tool-column">
           <div class="ip-information tool-info">
-            <b style="font-size: 20px">IP Information:</b>
+            <b style="font-size: 20px">IP/Server Information:</b>
             <span
               class="question-mark"
-              onclick="showInfo('IP Information', 'View information about the target IP address; such as hostname, location, organization, etc.')"
+              onclick="showInfo('IP/Server Information', 'Information about a website\'s hosting infrastructure, as well as IP address, location, and organization. Identify the geographical origin of a website or online service.')"
               >&#63;</span
             >
           </div>
           <div class="cookies-info tool-info">
-            <b style="font-size: 20px">Cookies Information:</b>
+            <b style="font-size: 20px">Cookies:</b>
             <span
               class="question-mark"
-              onclick="showInfo('Cookies Information', 'View information about the cookies gathered in the analysis.')"
+              onclick="showInfo('Cookies', 'Data that is stored within a browser that is specific between the user and website. Cookies can provide information about a user\'s behavior and interactions, as well as profiling the website\'s functionality.' )"
               >&#63;</span
             >
           </div>
           <div class="SSL-info tool-info">
-            <b style="font-size: 20px">SSL Certificate:</b>
+            <b style="font-size: 20px">SSL Certification:</b>
             <span
               class="question-mark"
-              onclick="showInfo('SSL Certificates', 'View information about the target SSL certificates and other security configuration.')"
+              onclick="showInfo('SSL Certification', 'Digital certificates that ensure secure communication by encrypting data between the user\'s browser and the website\'s server. SSL certificates help verify the legitimacy and credibility of a website, as it assesses the level of security and identifies any potential vulnerabilities.')"
               >&#63;</span
             >
           </div>
@@ -54,25 +54,25 @@
             <b style="font-size: 20px">Sitemap:</b>
             <span
               class="question-mark"
-              onclick="showInfo('Sitemap', 'View information about the target Sitemap and the subdomains in it.')"
+              onclick="showInfo('Sitemap', 'A recursive scan of all the sitemaps found within the website\'s robots.txt file. A sitemap contains all the public webpages that can be found on the website. Sitemaps can identify key webpages and can help with outlining a website\'s structure.')"
               >&#63;</span
             >
           </div>
         </div>
         <div id="tool-column">
           <div class="whois-info tool-info">
-            <b style="font-size: 20px">Whois:</b>
+            <b style="font-size: 20px">Domain (Whois):</b>
             <span
               class="question-mark"
-              onclick="showInfo('Whois', 'View information about the target Whois data; such as registry and domain status report.')"
+              onclick="showInfo('Domain (Whois)', 'Whois is a database that contains the registration information about domain names and their owners. This information includes registration dates, ownership details, and contact information, which can provide insight into the entities behind a website.')"
               >&#63;</span
             >
           </div>
           <div class="header-info tool-info">
-            <b style="font-size: 20px">Headers Information:</b>
+            <b style="font-size: 20px">Headers:</b>
             <span
               class="question-mark"
-              onclick="showInfo('Header Information', 'View information about the Headers gathered in the analysis; such as cache and content encoding data.')"
+              onclick="showInfo('Headers', 'Information about the request and response between a user and a web server. This includes server details, supported technologies, security configurations, and content-encoded data. Header information is used to assist the understanding of the technical aspects of a website.')"
               >&#63;</span
             >
           </div>
@@ -80,7 +80,7 @@
             <b style="font-size: 20px">Internal/External Links:</b>
             <span
               class="question-mark"
-              onclick="showInfo('Internal/External Links', 'View information about the internal and external and what are they used for.')"
+              onclick="showInfo('Internal/External Links', 'All the linked webpages that are found within the website. Internal links connect to pages within the same website, while external links direct users to pages on external domains.')"
               >&#63;</span
             >
           </div>
@@ -88,7 +88,9 @@
         <div id="tool-column">
           <div class="screenshot-info tool-info">
             <b style="font-size: 20px">Screenshot:</b>
-            <span class="question-mark" onclick="showInfo('Screenshot', '')"
+            <span 
+              class="question-mark"
+              onclick="showInfo('Screenshot', 'A screenshot of the webpage taken from a virtual web-browser. Quickly asses the visual content, layout, and potential malicious elements on a site, without communicating to the URL directly.')"
               >&#63;</span
             >
           </div>
@@ -96,7 +98,7 @@
             <b style="font-size: 20px">DNS Records:</b>
             <span
               class="question-mark"
-              onclick="showInfo('DNS Records', 'View information about the DNS records gathered in the analysis and what one means.')"
+              onclick="showInfo('DNS Records', 'Contains information about a domain\'s mapping to IP addresses. Can be useful when identifying associated domains, mail servers, and potential infrastructure connections.')"
               >&#63;</span
             >
           </div>
@@ -104,7 +106,7 @@
             <b style="font-size: 20px">Page Redirects:</b>
             <span
               class="question-mark"
-              onclick="showInfo('Redirects', 'View information about the Redirects detected in the target and where they branch out.')"
+              onclick="showInfo('Page Redirects', 'The webpages that were accessed to get to the URL\'s final destination. Tracking redirects can uncover hidden connections between websites and identify phishing attempts or scams.')"
               >&#63;</span
             >
           </div>
@@ -112,7 +114,7 @@
             <b style="font-size: 20px">Ports:</b>
             <span
               class="question-mark"
-              onclick="showInfo('Open Ports', 'View information about the target open ports and what are they used for.')"
+              onclick="showInfo('Ports', 'The ports that are open on the website. Open ports establish a connection between the client and a webbsite\'s server. Understanding which ports are open may provide insight about the services that a website provides, as well as any potential vulnrabilities.')"
               >&#63;</span
             >
           </div>
@@ -120,7 +122,7 @@
             <b style="font-size: 20px">Linked Phone Numbers:</b>
             <span
               class="question-mark"
-              onclick="showInfo('Linked Phone Numbers', 'View information about the linked Phone Numbers and what are they used for.')"
+              onclick="showInfo('Linked Phone Numbers', 'All the phone numbers that are found within the website.')"
               >&#63;</span
             >
           </div>
@@ -128,7 +130,7 @@
             <b style="font-size: 20px">Linked Emails:</b>
             <span
               class="question-mark"
-              onclick="showInfo('Linked Emails', 'View information about the linked emails and what are they used for.')"
+              onclick="showInfo('Linked Emails', 'All the email addresses that are found within the website.')"
               >&#63;</span
             >
           </div>

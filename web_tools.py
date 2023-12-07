@@ -258,7 +258,7 @@ def whois_info(domain):
     try:
         sd, tld = domain.split('.')
         if (tld not in valid_tld):
-            return {'error': 'The OSINT Dashboard only accepts these top level domains: .cc .com .edu .name .net '}
+            return {'error': 'The Whois database only accepts these top level domains: .cc .com .edu .name .net '}
         url = f"https://webwhois.verisign.com/webwhois-ui/rest/whois?q={sd}&tld={tld}&type=domain"
         response = requests.get(url)
 
