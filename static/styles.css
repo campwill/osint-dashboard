@@ -24,6 +24,18 @@ input[type="text"] {
   border-radius: 5px;
   outline: none;
 }
+
+input[type="file"]::file-selector-button {
+  border: 1px solid #004165;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  cursor: pointer;
+  border-radius: 1px;
+  background-color: #F9F9F9;
+  color: #004165;
+}
+
 .input-container {
   display: flex;
   flex-direction: column;

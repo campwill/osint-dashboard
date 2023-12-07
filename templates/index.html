@@ -26,7 +26,7 @@
             <h2>URL Analysis</h2>
             <p>SOME DESCRIPTION</p>
 
-            <label for="web_input">Enter Website URL:</label>
+            <label for="web_input">Enter a Website URL:</label>
 
             <input
               type="url"
@@ -34,6 +34,7 @@
               id="web_input"
               placeholder="https://example.com/"
               pattern="https?:\/\/(www\.)?.+\..+"
+              style="border: 1px solid; border-radius: 4px;"
               required
             />
             <button type="submit">Go</button>
@@ -44,7 +45,7 @@
             <h2>Exif Viewer</h2>
             <p>SOME DESCRIPTION</p>
             <label for="file_input"
-              >Upload File (.jpg, .jpeg, .png, .gif, or .tiff):</label
+              >Upload a File:</label
             >
             <input
               class="form-control"
@@ -52,6 +53,7 @@
               name="fileToUpload"
               accept=".jpg,.jpeg,.png,.gif,.tiff"
               id="file"
+              style="border: 1px solid; border-radius: 4px;"
               required
             />
             <button type="analyze">Go</button>
@@ -62,12 +64,13 @@
           <div class="input-container">
             <h2>Phone Lookup</h2>
             <p>SOME DESCRIPTION</p>
-            <label for="phone_input">Enter a Phone Number (11 digits):</label>
+            <label for="phone_input">Enter a Phone Number:</label>
             <input
               type="tel"
               name="phone_input"
               id="phone_input"
               title="Please enter only numeric digits"
+              style="border: 1px solid; border-radius: 4px;"
               required
             />
             <button type="submit">Go</button>
@@ -77,8 +80,8 @@
 
       <div class="credits">
         <p>
-          This OSINT Dashboard was developed by ANDREW FLORA. With Help from
-          William Campbell and <b>Santiago Colla</b>.
+          OSINT Dashboard was developed by Andrew Flora, William Campbell, and Santiago Colla.<br>
+          Github: <b><a href="https://github.com/campwill/osint-dashboard" style="text-decoration: none; font-weight: bold;">OSINT Dashboard</a></b>
         </p>
       </div>
     </div>
