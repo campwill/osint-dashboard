@@ -43,7 +43,8 @@
         <form action="/upload" method="post" enctype="multipart/form-data">
           <div class="input-container">
             <h2>Exif Viewer</h2><br>
-            <p>Extract Exif data from an uploaded image. This information can contain a wide variety of information, such as camera settings, date and time information, GPS data, and other descriptive information. Note that this data can be stripped when transferred accross applications.</p><br>
+            <p>Extract Exif data from an uploaded image. This information can contain a wide variety of information, such as camera settings, date and time information, GPS data, and other descriptive information. Note that this data can be stripped when transferred accross applications.</p>
+            <label for="fileToUpload">Upload an Image:</label>
             <input
               class="form-control"
               type="file"
@@ -66,6 +67,7 @@
               type="tel"
               name="phone_input"
               id="phone_input"
+              placeholder="16055551234"
               title="Please enter only numeric digits"
               style="border: 1px solid; border-radius: 4px;"
               required

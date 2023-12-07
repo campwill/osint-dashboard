@@ -40,7 +40,7 @@ input[type="file"]::file-selector-button {
   display: flex;
   flex-direction: column;
   justify-content: normal;
-  height: 1000%;
+  height: 100%;
 }
 .inputs {
   display: flex;
