@@ -27,8 +27,8 @@ input[type="text"] {
 .input-container {
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
-
+  justify-content: normal;
+  height: 25.5vh;
   padding: 10%;
 }
 .inputs {
@@ -43,7 +43,7 @@ form {
   padding: 20px;
   border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  width: 400px;
+  width: 1000px;
   margin: 0 10px; /* Adjust this property as needed */
 }
 
@@ -51,11 +51,11 @@ form {
   display: flex;
   flex-direction: column; 
   text-align: center; 
-
+  align-items: center;
 }
 .credits {
-  text-align: center;
-  padding: 40px;
+  position: absolute;
+  bottom: 0px;
 }
 
 html {

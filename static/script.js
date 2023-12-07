@@ -3,6 +3,7 @@ String.prototype.toProperCase = function () {
 };
 function createAndAppendElements(data, container, dictionary, ignoredItems) {
     for (var key in data) {
+        console.log(key)
         if (key == 'screenshot'){
             var hr = document.createElement("hr");
             container.appendChild(hr);
@@ -122,6 +123,24 @@ var toolsConfig = [
     {
         containerSelector:".screenshot-info",
         dataKey:"screenshot",
+        dictionary:{},
+        ignoredItems:[]
+    },
+    {
+        containerSelector:".links-info",
+        dataKey:"link_info",
+        dictionary:{},
+        ignoredItems:[]
+    },
+    {
+        containerSelector:".emails-info",
+        dataKey:"emails_info",
+        dictionary:{},
+        ignoredItems:[]
+    },
+    {
+        containerSelector:".phone-info",
+        dataKey:"phone_info",
         dictionary:{},
         ignoredItems:[]
     }

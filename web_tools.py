@@ -1,8 +1,6 @@
-import urllib.error as error
-import urllib.request as request
 import http.cookiejar
 import urllib.request
-from urllib.parse import urlparse
+from urllib.parse import urlparse, urljoin
 from urllib.request import urlopen
 from urllib import parse, robotparser, request
 import requests
@@ -171,56 +169,55 @@ def get_ssl(hostname, port=443):
     return certificate_info
 
 
-def get_sitemaps(website):
-
-    print('huh')
+def get_sitemaps(website, timeout=5):
     robotstxturl = parse.urljoin(website, "robots.txt")
-
+    sitemaps = []
     try:
-        with request.urlopen(robotstxturl, timeout=5) as response:
-            rp = RobotFileParser()
-            rp.set_url(robotstxturl)
-            rp.read()
-            sitemaps = rp.site_maps()
+        socket.setdefaulttimeout(timeout)
+        rp = robotparser.RobotFileParser()
+        rp.set_url(robotstxturl)
+        rp.read()
+        sitemaps = rp.site_maps()
     except error.URLError as e:
-        print(f"error: {e}")
-        sitemaps = []
+        if isinstance(e.reason, socket.timeout):
+            print(f"Timeout Error: {e}")
+        else:
+            print(f"URLError: {e}")
     except Exception as e:
         print(f"Error: {e}")
-        sitemaps = []
+    finally:
+        socket.setdefaulttimeout(None)
 
     return sitemaps
 
 
 def sitemap_parser(sitemap):
     try:
-        # Set a timeout for the urlopen function
-        with request.urlopen(sitemap, timeout=10) as r:
-            xml = r.read().decode('utf8')
-            elements = re.findall(r'<loc>(.*?)<\/loc>', xml, re.DOTALL)
+        r = request.urlopen(sitemap)
+        xml = r.read().decode('utf8')
+        elements = re.findall(r'<loc>(.*?)<\/loc>', xml, re.DOTALL)
 
-            urls = []
+        urls = []
 
-            for element in elements:
-                try:
-                    if element.endswith('.xml'):
-                        # Recursively call sitemap_parser
-                        urls.extend(sitemap_parser(element))
-                    else:
-                        urls.append(element)
-                except Exception as e:
-                    print(f"Error parsing sub-sitemap '{element}': {str(e)}")
+        for element in elements:
+            try:
+                if element.endswith('.xml'):
+                    # Recursively call sitemap_parser
+                    urls.extend(sitemap_parser(element))
+                else:
+                    urls.append(element)
+            except Exception as e:
+                print(f"Error parsing sub-sitemap '{element}': {str(e)}")
 
-            return urls
-    except error.URLError as e:
         return urls
-    except socket.timeout as e:
-        return urls
+    except Exception as e:
+        print(f"Error accessing sitemap '{sitemap}': {str(e)}")
+        return []
 
 
 def site_maps(url):
     sitemaps = get_sitemaps(url)
-    if not sitemaps:
+    if sitemaps is None:
         return {"Pages": []}
     all_urls = []
 
@@ -229,7 +226,7 @@ def site_maps(url):
 
     urls_dict = {"Pages": all_urls}
 
-    return urls_dict
+    return (urls_dict)
 
 
 def find_open_port(hostname, port):
@@ -307,3 +304,52 @@ def get_screenshot(url):
     finally:
         # Close the WebDriver
         driver.quit()
+
+
+def get_internal_external_links(url, timeout=5):
+    try:
+        response = requests.get(url, timeout=timeout)
+        response.raise_for_status()
+
+        base_url = urlparse(url).scheme + '://' + urlparse(url).hostname
+        links = re.findall(r'href=["\'](https?://[^\s"\'<>]+)', response.text)
+        internal_links = []
+        external_links = []
+
+        for link in links:
+            absolute_link = urljoin(base_url, link)
+            if urlparse(absolute_link).hostname == urlparse(url).hostname:
+                internal_links.append(absolute_link)
+            else:
+                external_links.append(absolute_link)
+
+        return {'Internal Links': internal_links, 'External Links': external_links}
+
+    except requests.exceptions.RequestException as e:
+        return {'error': f'Request error during request to {e}', 'message': 'Some sites might prohibit automated requests.'}
+
+
+def get_emails(url, timeout=5):
+    try:
+        response = requests.get(url, timeout=timeout)
+        response.raise_for_status()
+
+        emails = re.findall(
+            r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b', response.text)
+        return {'Emails': emails}
+
+    except requests.exceptions.RequestException as e:
+        return {'error': f'Request error during request to {e}', 'message': 'Some sites might prohibit automated requests.'}
+
+
+def get_phone_numbers(url, timeout=5):
+    try:
+        response = requests.get(url, timeout=timeout)
+        response.raise_for_status()
+        text_content = re.sub('<.*?>', ' ', response.text)
+        phone_numbers = re.findall(
+            r'\b1\s?\(\d{3}\)\s?\d{3}[-.\s]?\d{4}\b', text_content)
+        return {'Phone Numbers': phone_numbers}
+
+    except requests.exceptions.RequestException as e:
+        return {'error': f'Request error during request to {e}', 'message': 'Some sites might prohibit automated requests.'}
