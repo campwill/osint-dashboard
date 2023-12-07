@@ -23,8 +23,8 @@
           onsubmit="showLoadingScreen(); startQuoteCycle();"
         >
           <div class="input-container">
-            <h2>URL Analysis</h2>
-            <p>SOME DESCRIPTION</p>
+            <h2>URL Analysis</h2><br>
+            <p>Obtain IP, server, domain, and DNS details, along with other important information, given a URL. Assess the credibility of a URL by identifying its various sources, as well as the information that appears on the website. Any full-length URL is supported.</p>
 
             <label for="web_input">Enter a Website URL:</label>
 
@@ -42,11 +42,8 @@
         </form>
         <form action="/upload" method="post" enctype="multipart/form-data">
           <div class="input-container">
-            <h2>Exif Viewer</h2>
-            <p>SOME DESCRIPTION</p>
-            <label for="file_input"
-              >Upload a File:</label
-            >
+            <h2>Exif Viewer</h2><br>
+            <p>Extract Exif data from an uploaded image. This information can contain a wide variety of information, such as camera settings, date and time information, GPS data, and other descriptive information. Note that this data can be stripped when transferred accross applications.</p><br>
             <input
               class="form-control"
               type="file"
@@ -62,8 +59,8 @@
 
         <form method="POST" action="/pid_tool" autocomplete="off">
           <div class="input-container">
-            <h2>Phone Lookup</h2>
-            <p>SOME DESCRIPTION</p>
+            <h2>Phone Lookup</h2><br>
+            <p>Recieve location, carrier, and user information associated with a phone number. Various telecommunications companies can provide voice over IP numbers, which are popular among scammers. International phone numbers are supported. Enter a phone number below.</p>
             <label for="phone_input">Enter a Phone Number:</label>
             <input
               type="tel"
