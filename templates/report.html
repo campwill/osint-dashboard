@@ -78,7 +78,7 @@
           <p>
             <strong
               class="info-tag"
-              onclick="showInfo('{{value}}', '{{ExifDict[value][2]}}')"
+              onclick="showInfo('{{value}}', '{{ExifDict[value][2] | safe}}')"
               >{{ value }}: </strong
             >{{ presentTags[value] }}
           </p>
@@ -99,7 +99,7 @@
     <script>
       function showInfo(title, content) {
         document.getElementById("modal-title").textContent = title;
-        document.getElementById("modal-content").textContent = content;
+        document.getElementById("modal-content").innerHTML = content;
         document.getElementById("modal").style.display = "block";
       }
 

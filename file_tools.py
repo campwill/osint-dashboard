@@ -7,7 +7,6 @@ import json
 directory = os.path.join(os.path.dirname(__file__), 'static')
 file_name = 'exif_dict.json'
 file_path = os.path.join(directory, file_name)
-print(file_path)
 with open(file_path, 'r') as json_file:
     ExifDict = json.load(json_file)
 
