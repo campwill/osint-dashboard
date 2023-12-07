@@ -19,4 +19,4 @@ OSINT Dashboard is a web-based Open Source Intelligence (OSINT) tool designed to
 * Exif Data Viewer
 * Phone Number Lookup
 
-The OSINT Dashboard will not only collect and present this information, but will also provide users with insight on the information that it finds. It aims to simplify the process of gathering data from diverse sources, making it a valuable resource for OSINT investigators and researchers. The OSINT Dashboard is currently deployed using Microsoft Azure, at https://osintdashboard.azurewebsites.net/.
+The OSINT Dashboard will not only collect and present this information, but will also provide users with insight on the information that it finds. It aims to simplify the process of gathering data from diverse sources, making it a valuable resource for OSINT investigators and researchers. The OSINT Dashboard is currently deployed using Microsoft Azure, at http://osintdashboard.info/.
