@@ -1,20 +1,22 @@
 # OSINT Dashboard
-The OSINT Dashboard is a web-based Open Source Intelligence (OSINT) tool designed to consolidate and streamline the analysis of various data sources. This tool will provide users with the ability to gather and examine information from websites, files, phone numbers, emails, and more. The primary features of the dashboard include:
+OSINT Dashboard is a web-based Open Source Intelligence (OSINT) tool designed to consolidate and streamline the analysis of various data sources. This tool provides users with the ability to gather and examine information from URLs, image files, and phone numbers. The primary data that the dashboard collects include:
 
-    Website/Domain Analysis:
-        IP/Server Information
-        Domain/Registrar Identification
-        Site Features/Screenshots
-        DNS Records
-        Host Names
-        Shortened URL/Typosquat Analysis
+* URL Analysis:
+    * IP/Server Information
+    * Domain(Whois)
+    * Screenshots
+    * Cookies
+    * Headers
+    * DNS Records
+    * SSL Certificates
+    * Page Redirects
+    * Sitemaps
+    * Internal/External Links
+    * Open Ports
+    * Linked Phone Numbers
+    * Linked Emails
 
-    File Analysis:
-        Photo/File Metadata
-        Hash Verification
+* Exif Data Viewer
+* Phone Number Lookup
 
-    Phone Number Lookup
-
-    Email Lookup
-
-The OSINT Dashboard will not only collect and present this information but will also provide users with links to various OSINT tools that it utilizes. It aims to simplify the process of gathering data from diverse sources, making it a valuable resource for OSINT investigators and researchers.
+The OSINT Dashboard will not only collect and present this information, but will also provide users with insight on the information that it finds. It aims to simplify the process of gathering data from diverse sources, making it a valuable resource for OSINT investigators and researchers.
