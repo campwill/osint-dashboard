@@ -53,7 +53,10 @@ h2 {
   font-size: 24px;
   margin: 1%;
 }
-
+.info-tag{
+  cursor: pointer;
+  text-decoration: underline;
+}
 
 .question-mark {
   font-size: 24px; /* Adjust the font size as needed */

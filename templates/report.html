@@ -28,7 +28,13 @@
       <div class="section">
         {% for key in PillowDict %}
         <div class="info-block">
-          <p><strong>{{ key }}: </strong>{{ PillowDict[key][0] }}</p>
+          <p>
+            <strong
+              class="info-tag"
+              onclick="showInfo('{{key}}', '{{PillowDict[key][1]}}')"
+              >{{ key }}: </strong
+            >{{ PillowDict[key][0] }}
+          </p>
         </div>
         {% if not loop.last %}
         <!-- Add separator if not the last iteration -->
@@ -69,7 +75,13 @@
         </div>
         {% for value in presentTags %}
         <div class="info-block">
-          <p><strong>{{ value }}:</strong> {{ presentTags[value] }}</p>
+          <p>
+            <strong
+              class="info-tag"
+              onclick="showInfo('{{value}}', '{{ExifDict[value][2]}}')"
+              >{{ value }}: </strong
+            >{{ presentTags[value] }}
+          </p>
           {% if not loop.last %}
           <!-- Add separator if not the last iteration -->
           <hr />
@@ -78,5 +90,22 @@
         {% endfor %} {% endif %}
       </div>
     </div>
+
+    <div id="modal" class="modal">
+      <span class="close" onclick="hideInfo()">&times;</span>
+      <h2 id="modal-title"></h2>
+      <p id="modal-content"></p>
+    </div>
+    <script>
+      function showInfo(title, content) {
+        document.getElementById("modal-title").textContent = title;
+        document.getElementById("modal-content").textContent = content;
+        document.getElementById("modal").style.display = "block";
+      }
+
+      function hideInfo() {
+        document.getElementById("modal").style.display = "none";
+      }
+    </script>
   </body>
 </html>
