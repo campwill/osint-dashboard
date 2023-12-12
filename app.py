@@ -31,6 +31,11 @@ def web_tool():
         r'^http(s)://(?:www\.)?[a-zA-Z0-9-]+(?:\.[a-zA-Z]{2,})+(?:/[^/\s]*)?$')
     if not url_pattern.match(user_url):
         return jsonify({"error": "Please provide a valid HTTPS URL"}), 400
+    unallowed_domains = ["osintdashboard.info","https://osintdashboard.azurewebsites.net/"]
+
+    if user_url in unallowed_domains or user_url.startswith("https://osintdashboard.azurewebsites.net/"):
+        return jsonify({"error": "Access to this domain is not allowed"}), 400
+
 
     domain, ip_str, title, favicon = website_information(user_url)
     large_json = {
