@@ -24,7 +24,7 @@ The primary data that the dashboard collects include:
 * Exif Data Viewer
 * Phone Number Lookup
 
-The OSINT Dashboard will not only collect and present this information, but will also provide users with insight on the information that it finds. It aims to simplify the process of gathering data from diverse sources, making it a valuable resource for OSINT investigators and researchers. The OSINT Dashboard is currently deployed using Microsoft Azure, at https://osintdashboard.info/.
+The OSINT Dashboard will not only collect and present this information, but will also provide users with insight on the information that it finds. It aims to simplify the process of gathering data from diverse sources, making it a valuable resource for OSINT investigators and researchers. The OSINT Dashboard is currently deployed using Microsoft Azure, which can be accessed at https://osintdashboard.xyz/.
 
 ## Installation
 1. Download [Python](https://www.python.org/downloads/) (version 3.11 or higher).
